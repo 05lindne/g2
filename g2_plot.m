@@ -1,6 +1,6 @@
 %{
 @file g2.m
-@brief Read in g2 data of correlated click lists (i.e. output of g2calc) and plot a normalized offset-subtracted, fitted g2.
+@brief Read in g2 data of correlated click lists ( i.e. output of g2calc) and plot a normalized offset-subtracted, fitted g2.
 @author Sarah Lindner
 @date 12.06.2014
 
@@ -9,6 +9,7 @@ Lines of text which are to be modified by user are maked with >>>
 @todo 
 only works for data of new lab, build variable 
 implement fit class
+take maxiter out of fit class
 
 %}
 
@@ -25,8 +26,9 @@ baseFileName = 'scan_xy_25_25_ll_x20y23_g2';
 dataInFileExtension = '.txt';
 dataInFileName = [ baseFileName, dataInFileExtension ]
 
-% >>> specify binning of time tag module, new lab: 0.078ns
-binWidth = 0.078;
+% >>> specify measurement performed in new or old lab ( for binning of time tag module, width of HBT response function)
+lab = 'new'; %'old'
+
 % >>> specify the number of datapoints which should be used as normalization reference
 normalization_range = 200;
 % >>> specify starting values for g2 fit
@@ -36,9 +38,7 @@ t1  = 1.4;
 t2  = 1100;
 y0  = 1;
 pf  = 0.9372;
-% >> specify 1/sqrt(e)-width of HBT response function
-w 	= 0.296; % new lab
-%w = 0.354; % old lab
+
 %----------------------------------------------------------------------
 
 
@@ -49,11 +49,26 @@ dataFileIn=dlmread(fullfile(myFolder, dataInFileName), '\t');
 xDataIn = dataFileIn(:,1);
 yDataIn = dataFileIn(:,2);
 
+% set binning of time tag module and width of HBT response function
+if ( lab == 'new')
+	binWidth 	= 0.078;
+	widthHbt	= 0.296;
+elseif ( lab == 'old')
+	binWidth 	= 0.078;%?????????????????????????????????????????????????????????
+	widthHbt	= 0.354;
+else
+	error ('Wrong input for lab')
+end
 
 % put measured data in desired format
 xDataAdjusted = adjust_x( xDataIn, binWidth );
 yDataNormalized = normalize_g2( yDataIn, normalization_range );
 
 %calculate fit function
-fitting = FitG2(a, t0, t1, t2, y0, pf, w );
-fitting.calculate_g2_fit( xDataAdjusted, yDataNormalized );
+fitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt, xDataAdjusted, yDataNormalized );
+fitting.calculate_g2_fit;
+fitting.fitParametersEnd
+%plot
+
+% save output
+fitting.save_fit_data( myFolder, baseFileName )
