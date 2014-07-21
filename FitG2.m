@@ -7,13 +7,12 @@ classdef FitG2 < hgsetget
     t0Value  = -0.75;
     t1Value  = 1.4;
     t2Value  = 1100;
-    y0Value  = 1;
     pfValue  = 0.9372;
 
     widthHbt   = 0.296;
 
-    % xData;
-    % yData;
+    xData;
+    yData;
 
     fitParameters;
 
@@ -22,22 +21,18 @@ classdef FitG2 < hgsetget
   methods
   % methods, including the constructor are defined in this block
 
-    function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_y0, new_pf, new_widthHbt)
-    % function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_y0, new_pf, new_widthHbt, new_xData, new_yData)
+    function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_pf, new_widthHbt, new_xData, new_yData)
     % class constructor, name of constructor function must match name of class
-      if ( nargin == 7 )
-      % if ( nargin == 9 )
+      if ( nargin == 8 )
         obj.aValue     = new_a;
         obj.t0Value    = new_t0;
         obj.t1Value    = new_t1;
         obj.t2Value    = new_t2;
-        obj.y0Value    = new_y0;
         obj.pfValue    = new_pf;
         obj.widthHbt    = new_widthHbt;
-        % obj.xData       = new_xData;
-        % obj.yData       = new_yData;
-      elseif ( nargin < 7 )
-      % elseif ( nargin < 9 )
+        obj.xData       = new_xData;
+        obj.yData       = new_yData;
+      elseif ( nargin < 8 )
         error ('Not enough input arguments for fit.')
       else
         error ('Too many arguments for fit.')
@@ -46,66 +41,9 @@ classdef FitG2 < hgsetget
     end
 
 
+    function g2 = g2_equation( obj )
 
-
-
-    function obj = calculate_g2_fit( obj, xData, yData )
-
-      fitParametersStart=[obj.aValue obj.t0Value obj.t1Value obj.t2Value obj.pfValue];
-
-      g2 =@(p) 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + xData)*p(3)...
-                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3)))) + (2*xData/p(3)))...
-                       + (1 + erf(0.5*((-p(2) + xData)*p(3)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3))))*exp(2*p(2)/p(3)))))... 
-                       + (0.5*((-2*xData-2*p(2))*p(3) + obj.widthHbt^2)/p(3)^2))... %convolution gaussian with 1st exponential function
-                       + 0.5*p(1)*exp(0.5*((-2*xData-2*p(2))*p(4) + obj.widthHbt^2)/p(4)^2)...  
-                      .*(exp(2*xData/p(4)) + exp(2*p(2)/p(4))-erf(0.5*((-p(2) + xData)*p(4)...
-                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))...
-                      .*exp(2*xData/p(4)) + erf(0.5*((-p(2) + xData)*p(4)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))*exp(2*p(2)/p(4))))-yData %convolution gaussian with 2. exponential function
-
-      [calculatedFitParameters, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000)
-      % [obj, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000)
-      % [obj.fitParametersEnd, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',5)
-
-      % obj.fitParametersEnd;
-
-
-      set(obj, 'fitParameters', calculatedFitParameters)
-
-    end
-% function obj = calculate_g2_fit( obj )
-
-%       fitParametersStart=[obj.aValue obj.t0Value obj.t1Value obj.t2Value obj.pfValue];
-
-%       g2 =@(p) 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + obj.xData)*p(3)...
-%                        + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3)))) + (2*obj.xData/p(3)))...
-%                        + (1 + erf(0.5*((-p(2) + obj.xData)*p(3)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3))))*exp(2*p(2)/p(3)))))... 
-%                        + (0.5*((-2*obj.xData-2*p(2))*p(3) + obj.widthHbt^2)/p(3)^2))... %convolution gaussian with 1st exponential function
-%                        + 0.5*p(1)*exp(0.5*((-2*obj.xData-2*p(2))*p(4) + obj.widthHbt^2)/p(4)^2)...  
-%                       .*(exp(2*obj.xData/p(4)) + exp(2*p(2)/p(4))-erf(0.5*((-p(2) + obj.xData)*p(4)...
-%                        + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))...
-%                       .*exp(2*obj.xData/p(4)) + erf(0.5*((-p(2) + obj.xData)*p(4)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))*exp(2*p(2)/p(4))))-obj.yData %convolution gaussian with 2. exponential function
-
-%       [calculatedFitParameters, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000)
-%       % [obj, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000)
-%       % [obj.fitParametersEnd, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',5)
-
-%       % obj.fitParametersEnd;
-
-%       set(obj, 'aValue', calculatedFitParameters(1))
-%       set(obj, 't0Value', calculatedFitParameters(2))
-%       set(obj, 't1Value', calculatedFitParameters(3))
-%       set(obj, 't2Value', calculatedFitParameters(4))
-%       set(obj, 'pfValue', calculatedFitParameters(5))
-
-%     end
-
-
-
-
-
-    function obj = g2_equation(obj, p)
-
-      obj.g2 = 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + obj.xData)*p(3)...
+      g2 =@(p) 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + obj.xData)*p(3)...
                        + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3)))) + (2*obj.xData/p(3)))...
                        + (1 + erf(0.5*((-p(2) + obj.xData)*p(3)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3))))*exp(2*p(2)/p(3)))))... 
                        + (0.5*((-2*obj.xData-2*p(2))*p(3) + obj.widthHbt^2)/p(3)^2))... %convolution gaussian with 1st exponential function
@@ -116,13 +54,34 @@ classdef FitG2 < hgsetget
 
     end
 
-    % function parameters = get.FitG2(obj)
 
-    %   % fprintf('in member 1');
-    %   parameters = [        obj.aValue, obj.t0Value , obj.t1Value ,  obj.t2Value ,   obj.y0Value ,   obj.pfValue ,   obj.widthHbt ,   obj.xData  ,       obj.yData ];
 
-    %   % fprintf('in member 2');
-    % end
+
+
+    function calculate_g2_fit( obj )
+
+      fitParametersStart=[obj.aValue obj.t0Value obj.t1Value obj.t2Value obj.pfValue];
+
+      g2 = obj.g2_equation;
+
+      [calculatedFitParameters, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000);
+
+      set(obj, 'aValue', calculatedFitParameters(1));
+      set(obj, 't0Value', calculatedFitParameters(2));
+      set(obj, 't1Value', calculatedFitParameters(3));
+      set(obj, 't2Value', calculatedFitParameters(4));
+      set(obj, 'pfValue', calculatedFitParameters(5));
+
+      set( obj, 'fitParameters', calculatedFitParameters(:));
+
+
+    end
+
+
+
+
+
+
 
 
     function save_fit_data( obj, myFolder, baseFileName )

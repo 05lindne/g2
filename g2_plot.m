@@ -72,16 +72,15 @@ yDataNormalized = normalize_g2( yDataIn, normalization_range );
 %calculate fit function
 
 % fprintf('in main1')
-% fitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt, xDataAdjusted, yDataNormalized );
-fitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt );
+fitting = FitG2(a, t0, t1, t2, pf, widthHbt, xDataAdjusted, yDataNormalized );
 
 % fprintf('in main2')
 
-fitting.calculate_g2_fit( xDataAdjusted, yDataNormalized );
+fitting.calculate_g2_fit;
 
-fprintf('in main3')
+% fprintf('in main3')
+
 get(fitting)
-get(fitting, 'fitParameters')
 % fprintf('in main4')
 
 %plot
