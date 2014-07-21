@@ -14,6 +14,9 @@ classdef FitG2 < hgsetget
     xData;
     yData;
 
+    myFolder;
+    baseFileName;
+
     fitParameters;
     g2Data;
 
@@ -22,9 +25,9 @@ classdef FitG2 < hgsetget
   methods
   % methods, including the constructor are defined in this block
 
-    function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_pf, new_widthHbt, new_xData, new_yData)
+    function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_pf, new_widthHbt, new_xData, new_yData, new_myFolder, new_baseFileName)
     % class constructor, name of constructor function must match name of class
-      if ( nargin == 8 )
+      if ( nargin == 10 )
         obj.aValue     = new_a;
         obj.t0Value    = new_t0;
         obj.t1Value    = new_t1;
@@ -33,7 +36,9 @@ classdef FitG2 < hgsetget
         obj.widthHbt    = new_widthHbt;
         obj.xData       = new_xData;
         obj.yData       = new_yData;
-      elseif ( nargin < 8 )
+        obj.myFolder        = new_myFolder;
+        obj.baseFileName= new_baseFileName
+      elseif ( nargin < 10 )
         error ('Not enough input arguments for fit.')
       else
         error ('Too many arguments for fit.')
@@ -77,27 +82,67 @@ classdef FitG2 < hgsetget
 
       set( obj, 'fitParameters', calculatedFitParameters(:));
 
-      set(obj, 'g2Data', g2(calculatedFitParameters(:)));
+      set(obj, 'g2Data', g2(calculatedFitParameters(:))+obj.yData);
     end
 
 
 
 
+    function plot ( obj )
+
+      % plot entire measured g2 
+      hFigure = figure; 
+      plot(obj.xData,obj.yData,'-k','LineWidth', 1)
+      axis tight;
+      ylim ([ 0, Inf]);
+      xlabel('\tau (ns)','Fontsize', 20)
+      ylabel('g^{(2)}','Fontsize', 20)
+      hold on;
+
+      % plot the fit function
+      plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
+      hold off
+
+      % Save as pdf (Because a file name is specified, the figure will be printed to a file.)
+      plotFileName = [obj.myFolder, obj.baseFileName, '.eps']
+      print(hFigure,  '-dpsc ','-r1200', plotFileName)
+
+    end
 
 
 
+    function detail_plot ( obj )
 
-    function save_fit_data( obj, myFolder, baseFileName )
+      % plot entire measured g2 
+      hFigure = figure; 
+      plot(obj.xData,obj.yData,'-k','LineWidth', 1)
+      axis([-50, 50, 0, Inf]);
+      xlabel('\tau (ns)','Fontsize', 20)
+      ylabel('g^{(2)}','Fontsize', 20)
+      hold on;
 
-      dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitdata.txt']), (obj.g2Data+obj.yData),'precision', 8) ;
+      % plot the fit function
+      plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
+      hold off
+
+      % Save as pdf (Because a file name is specified, the figure will be printed to a file.)
+      plotFileName = [obj.myFolder, obj.baseFileName, '_detail.eps']
+      print(hFigure,  '-dpsc ','-r1200', plotFileName)
+
+    end
+
+    function save_fit_data( obj )
+
+      dlmwrite(fullfile(obj.myFolder, [ obj.baseFileName, '_g2_fitdata.txt']), (obj.g2Data),'precision', 8) ;
 
 
     end
 
 
-    function save_fit_parameters( obj, myFolder, baseFileName )
 
-      dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitparam.txt']),obj.fitParameters,'delimiter' ,'\t', 'precision', 6);
+    function save_fit_parameters( obj )
+
+      dlmwrite(fullfile(obj.myFolder, [ obj.baseFileName, '_g2_fitparam.txt']),obj.fitParameters,'delimiter' ,'\t', 'precision', 6);
 
     end
 
