@@ -16,10 +16,13 @@ take maxiter out of fit class
 % Initialize parameters
 clear all; close all;
 
+
+
+
 % INPUT HERE---------------------------------------------------------
 
 % >>> specify directory which contains the correlation data
-myFolder = '/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-V2/140606/g2/';
+myFolder = '/mnt/Daten/measurements/SIQ/goetzinger/SIQ-SG-V2/140606/g2/';
 % >>> specify file name of the correlation data file without extension
 baseFileName = 'scan_xy_25_25_ll_x20y23_g2';
 % >>> specify extension of the correlation data file
@@ -40,6 +43,8 @@ y0  = 1;
 pf  = 0.9372;
 
 %----------------------------------------------------------------------
+
+
 
 
 
@@ -65,10 +70,21 @@ xDataAdjusted = adjust_x( xDataIn, binWidth );
 yDataNormalized = normalize_g2( yDataIn, normalization_range );
 
 %calculate fit function
-fitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt, xDataAdjusted, yDataNormalized );
-fitting.calculate_g2_fit;
-fitting.fitParametersEnd
+
+% fprintf('in main1')
+% fitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt, xDataAdjusted, yDataNormalized );
+fitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt );
+
+% fprintf('in main2')
+
+fitting.calculate_g2_fit( xDataAdjusted, yDataNormalized );
+
+fprintf('in main3')
+get(fitting)
+get(fitting, 'fitParameters')
+% fprintf('in main4')
+
 %plot
 
 % save output
-fitting.save_fit_data( myFolder, baseFileName )
+% fitting.save_fit_data( myFolder, baseFileName );
