@@ -93,10 +93,18 @@ classdef FitG2 < hgsetget
       % plot entire measured g2 
       hFigure = figure; 
       plot(obj.xData,obj.yData,'-k','LineWidth', 1)
+
       axis tight;
       ylim ([ 0, Inf]);
+      set(gca,'fontsize',16) %fontsize of tick numbers
+      set(gca,'XTick', -2000:500:20000); %set tick interval
+      set(gca,'YTick', 0:0.25:2);
       xlabel('\tau (ns)','Fontsize', 20)
       ylabel('g^{(2)}','Fontsize', 20)
+
+      titleFileName = strrep(obj.baseFileName, '_', '\_');
+      title( ['g2 (', titleFileName, '.txt )'], 'Fontsize', 20 )
+
       hold on;
 
       % plot the fit function
@@ -116,9 +124,17 @@ classdef FitG2 < hgsetget
       % plot entire measured g2 
       hFigure = figure; 
       plot(obj.xData,obj.yData,'-k','LineWidth', 1)
+
       axis([-50, 50, 0, Inf]);
+      set(gca,'fontsize',16) %fontsize of tick numbers
+      set(gca,'XTick', -50:10:50); %set tick interval
+      set(gca,'YTick', 0:0.25:2);
       xlabel('\tau (ns)','Fontsize', 20)
       ylabel('g^{(2)}','Fontsize', 20)
+
+      titleFileName = strrep(obj.baseFileName, '_', '\_');
+      title( ['Detail g2 (', titleFileName, '.txt )'], 'Fontsize', 20 )
+
       hold on;
 
       % plot the fit function
