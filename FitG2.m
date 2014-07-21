@@ -15,6 +15,7 @@ classdef FitG2 < hgsetget
     yData;
 
     fitParameters;
+    g2Data;
 
   end
 
@@ -39,6 +40,8 @@ classdef FitG2 < hgsetget
       end
 
     end
+
+
 
 
     function g2 = g2_equation( obj )
@@ -74,7 +77,7 @@ classdef FitG2 < hgsetget
 
       set( obj, 'fitParameters', calculatedFitParameters(:));
 
-
+      set(obj, 'g2Data', g2(calculatedFitParameters(:)));
     end
 
 
@@ -86,8 +89,15 @@ classdef FitG2 < hgsetget
 
     function save_fit_data( obj, myFolder, baseFileName )
 
-      dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitdata.txt']),obj.g2_equation( obj.fitParametersEnd),'precision', 8) ;
-      % dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitparam.txt']),x,'delimiter' ,'\t', 'precision', 6);
+      dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitdata.txt']), (obj.g2Data+obj.yData),'precision', 8) ;
+
+
+    end
+
+
+    function save_fit_parameters( obj, myFolder, baseFileName )
+
+      dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitparam.txt']),obj.fitParameters,'delimiter' ,'\t', 'precision', 6);
 
     end
 

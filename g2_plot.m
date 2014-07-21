@@ -81,9 +81,11 @@ fitting.calculate_g2_fit;
 % fprintf('in main3')
 
 get(fitting)
+
 % fprintf('in main4')
 
 %plot
 
 % save output
-% fitting.save_fit_data( myFolder, baseFileName );
+fitting.save_fit_data( myFolder, baseFileName );
+fitting.save_fit_parameters( myFolder, baseFileName );
