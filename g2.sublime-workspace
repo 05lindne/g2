@@ -4,6 +4,42 @@
 		"selected_items":
 		[
 			[
+				"da",
+				"dataFileIn"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"new_y",
+				"new_yData"
+			],
+			[
+				"save",
+				"save_fit"
+			],
+			[
+				"bi",
+				"binWidth"
+			],
+			[
+				"fitParameters",
+				"fitParametersEnd"
+			],
+			[
+				"xD",
+				"xDataAdjusted"
+			],
+			[
+				"st",
+				"startingParameters"
+			],
+			[
+				"Fi",
+				"FitG2"
+			],
+			[
 				"normali",
 				"normalization_range"
 			],
@@ -20,16 +56,8 @@
 				"ExecutingFunctionA"
 			],
 			[
-				"in",
-				"input_sleep_pin"
-			],
-			[
 				"inp",
 				"input_step_pin"
-			],
-			[
-				"st",
-				"step_pin"
 			],
 			[
 				"re",
@@ -98,10 +126,6 @@
 			[
 				"ma",
 				"max1"
-			],
-			[
-				"da",
-				"dateiin1"
 			],
 			[
 				"li",
@@ -228,85 +252,33 @@
 	"buffers":
 	[
 		{
-			"contents": "%{\n@file g2.m\n@brief Read in g2 data of correlated click lists (i.e. output of g2calc) and plot a normalized offset-subtracted, fitted g2.\n@author Sarah Lindner\n@date 12.06.2014\n\nLines of text which are to be modified by user are maked with >>>\n\n@todo \nonly works for data of new lab, build variable \nimplement fit class\n\n%}\n\n% Initialize parameters\nclear all; close all;\n\n% INPUT HERE---------------------------------------------------------\n\n% >>> specify directory which contains the correlation data\nmyFolder = '/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-V2/140606/g2/';\n% >>> specify file name of the correlation data file without extension\nbaseFileName = 'scan_xy_25_25_ll_x20y23_g2';\n% >>> specify extension of the correlation data file\ndataInFileExtension = '.txt';\ndataInFileName = [ baseFileName, dataInFileExtension ]\n\n% >>> specify binning of time tag module, new lab: 0.078ns\nbinWidth = 0.078;\n% >>> specify the number of datapoints which should be used as normalization reference\nnormalization_range = 200;\n\n%----------------------------------------------------------------------\n\n\n\n% read in data\ndataFileIn=dlmread(fullfile(myFolder, dataInFileName), '\\t');\n% save data in 1D arrays\nxDataIn = dataFileIn(:,1);\nyDataIn = dataFileIn(:,2);\n\n\n% put measured data in desired format\nxDataAdjusted = adjust_x( xDataIn, binWidth );\nyDataNormalized = normalize_g2( yDataIn, normalization_range );\n\n%calculate fit function\n",
+			"contents": "%{\n@file g2.m\n@brief Read in g2 data of correlated click lists ( i.e. output of g2calc) and plot a normalized offset-subtracted, fitted g2.\n@author Sarah Lindner\n@date 12.06.2014\n\nLines of text which are to be modified by user are maked with >>>\n\n@todo \nonly works for data of new lab, build variable \nimplement fit class\ntake maxiter out of fit class\n\n%}\n\n% Initialize parameters\nclear all; close all;\n\n\n\n\n% INPUT HERE---------------------------------------------------------\n\n% >>> specify directory which contains the correlation data\nmyFolder = '/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-V2/140606/g2/';\n% >>> specify file name of the correlation data file without extension\nbaseFileName = 'scan_xy_25_25_ll_x20y23_g2';\n% >>> specify extension of the correlation data file\ndataInFileExtension = '.txt';\ndataInFileName = [ baseFileName, dataInFileExtension ]\n\n% >>> specify measurement performed in new or old lab ( for binning of time tag module, width of HBT response function)\nlab = 'new'; %'old'\n\n% >>> specify the number of datapoints which should be used as normalization reference\nnormalization_range = 200;\n% >>> specify starting values for g2 fit\na   = 0.6;\nt0  = -0.75;\nt1  = 1.4;\nt2  = 1100;\ny0  = 1;\npf  = 0.9372;\n\n%----------------------------------------------------------------------\n\n\n\n\n\n% read in data\ndataFileIn=dlmread(fullfile(myFolder, dataInFileName), '\\t');\n% save data in 1D arrays\nxDataIn = dataFileIn(:,1);\nyDataIn = dataFileIn(:,2);\n\n% set binning of time tag module and width of HBT response function\nif ( lab == 'new')\n	binWidth 	= 0.078;\n	widthHbt	= 0.296;\nelseif ( lab == 'old')\n	binWidth 	= 0.078;%?????????????????????????????????????????????????????????\n	widthHbt	= 0.354;\nelse\n	error ('Wrong input for lab')\nend\n\n% put measured data in desired format\nxDataAdjusted = adjust_x( xDataIn, binWidth );\nyDataNormalized = normalize_g2( yDataIn, normalization_range );\n\n%calculate fit function\n\nfprintf('in main1')\nfitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt, xDataAdjusted, yDataNormalized );\n\nfprintf('in main2')\n\nfitting.calculate_g2_fit;\n\nfprintf('in main3')\nfitting.fitParametersEnd;\nfprintf('in main4')\n\n%plot\n\n% save output\n% fitting.save_fit_data( myFolder, baseFileName );\n",
 			"file": "g2_plot.m",
-			"file_size": 1439,
-			"file_write_time": 1403623316000000,
+			"file_size": 2229,
+			"file_write_time": 1405615963000000,
 			"settings":
 			{
-				"buffer_size": 1441,
+				"buffer_size": 2230,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "fit.m",
+			"contents": "classdef FitG2\n% write a description of the class here.\n\n  properties\n    % define the properties of the class here, (like fields of a struct)\n    aStart   = 0.6;\n    t0Start  = -0.75;\n    t1Start  = 1.4;\n    t2Start  = 1100;\n    y0Start  = 1;\n    pfStart  = 0.9372;\n\n    widthHbt   = 0.296;\n\n    xData;\n    yData;\n\n    fitParametersEnd;\n\n  end\n\n  methods\n  % methods, including the constructor are defined in this block\n\n    function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_y0, new_pf, new_widthHbt, new_xData, new_yData)\n    % class constructor, name of constructor function must match name of class\n      if ( nargin == 9 )\n        obj.aStart     = new_a;\n        obj.t0Start    = new_t0;\n        obj.t1Start    = new_t1;\n        obj.t2Start    = new_t2;\n        obj.y0Start    = new_y0;\n        obj.pfStart    = new_pf;\n        obj.widthHbt    = new_widthHbt;\n        obj.xData       = new_xData;\n        obj.yData       = new_yData;\n      elseif ( nargin < 9 )\n        error ('Not enough input arguments for fit.')\n      else\n        error ('Too many arguments for fit.')\n      end\n\n    end\n\n    function obj = calculate_g2_fit( obj )\n\n      fitParametersStart=[obj.aStart obj.t0Start obj.t1Start obj.t2Start obj.pfStart];\n\n      g2 =@(p) 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + obj.xData)*p(3)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3)))) + (2*obj.xData/p(3)))...\n                       + (1 + erf(0.5*((-p(2) + obj.xData)*p(3)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3))))*exp(2*p(2)/p(3)))))... \n                       + (0.5*((-2*obj.xData-2*p(2))*p(3) + obj.widthHbt^2)/p(3)^2))... %convolution gaussian with 1st exponential function\n                       + 0.5*p(1)*exp(0.5*((-2*obj.xData-2*p(2))*p(4) + obj.widthHbt^2)/p(4)^2)...  \n                      .*(exp(2*obj.xData/p(4)) + exp(2*p(2)/p(4))-erf(0.5*((-p(2) + obj.xData)*p(4)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))...\n                      .*exp(2*obj.xData/p(4)) + erf(0.5*((-p(2) + obj.xData)*p(4)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))*exp(2*p(2)/p(4))))-obj.yData; %convolution gaussian with 2. exponential function\n\n      [obj.fitParametersEnd, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000)\n\n      obj.fitParametersEnd;\n\n    end\n\n\n\n\n\n    function obj = g2_equation(obj, p)\n\n      obj.g2 = 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + obj.xData)*p(3)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3)))) + (2*obj.xData/p(3)))...\n                       + (1 + erf(0.5*((-p(2) + obj.xData)*p(3)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3))))*exp(2*p(2)/p(3)))))... \n                       + (0.5*((-2*obj.xData-2*p(2))*p(3) + obj.widthHbt^2)/p(3)^2))... %convolution gaussian with 1st exponential function\n                       + 0.5*p(1)*exp(0.5*((-2*obj.xData-2*p(2))*p(4) + obj.widthHbt^2)/p(4)^2)...  \n                      .*(exp(2*obj.xData/p(4)) + exp(2*p(2)/p(4))-erf(0.5*((-p(2) + obj.xData)*p(4)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))...\n                      .*exp(2*obj.xData/p(4)) + erf(0.5*((-p(2) + obj.xData)*p(4)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))*exp(2*p(2)/p(4))))-obj.yData; %convolution gaussian with 2. exponential function\n\n    end\n\n    function parameters = get.fitParametersEnd(obj)\n\n      fprintf('in member 1');\n      parameters = obj.fitParametersEnd;\n\n      fprintf('in member 2');\n    end\n\n\n    function save_fit_data( obj, myFolder, baseFileName )\n\n      dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitdata.txt']),obj.g2_equation( obj.fitParametersEnd),'precision', 8) ;\n      % dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitparam.txt']),x,'delimiter' ,'\\t', 'precision', 6);\n\n    end\n\n  end\n\nend",
+			"file": "FitG2.m",
+			"file_size": 3857,
+			"file_write_time": 1403697597000000,
 			"settings":
 			{
-				"buffer_size": 1763,
+				"buffer_size": 3861,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "/home/sahara/my_programs/g2_fit/g2_fit_mit_LMFnlsq_fuerSarah.m",
+			"file": "/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
 			"settings":
 			{
-				"buffer_size": 2465,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "{\n	\"auto_complete\":\n	{\n		\"selected_items\":\n		[\n			[\n				\"x\",\n				\"xdat\"\n			]\n		]\n	},\n	\"buffers\":\n	[\n	],\n	\"build_system\": \"Packages/C++/C++.sublime-build\",\n	\"command_palette\":\n	{\n		\"height\": 392.0,\n		\"selected_items\":\n		[\n			[\n				\"pro\",\n				\"Project: Save As\"\n			],\n			[\n				\"Package Control: Ins\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"Package Control: Install\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"pa\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"p\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"packin\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"ar\",\n				\"Package Control: Add Repository\"\n			],\n			[\n				\"ins\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"i\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"pac\",\n				\"Preferences: Browse Packages\"\n			],\n			[\n				\"get\",\n				\"Package Control: Add Repository\"\n			],\n			[\n				\"pack\",\n				\"Preferences: Browse Packages\"\n			],\n			[\n				\"pare\",\n				\"Package Control: Remove Package\"\n			],\n			[\n				\"instal\",\n				\"Package Control: Install Package\"\n			],\n			[\n				\"Package Control: in\",\n				\"Package Control: Install Package\"\n			]\n		],\n		\"width\": 449.0\n	},\n	\"console\":\n	{\n		\"height\": 153.0\n	},\n	\"distraction_free\":\n	{\n		\"menu_visible\": true,\n		\"show_minimap\": false,\n		\"show_open_files\": false,\n		\"show_tabs\": false,\n		\"side_bar_visible\": false,\n		\"status_bar_visible\": false\n	},\n	\"file_history\":\n	[\n		\"/home/sahara/my_programs/g2/g2.sublime-project\",\n		\"/etc/aliases\",\n		\"/etc/alias\",\n		\"/home/sahara/my_programs/g2/normalize_g2.m\",\n		\"/home/sahara/my_programs/g2/subtract_offset.m\",\n		\"/home/sahara/my_programs/g2/adjust_x.m\",\n		\"/usr/bin/cronjobs/backup_Daten\",\n		\"/home/sahara/my_programs/try/try_error.m\",\n		\"/home/sahara/.config/sublime-text-2/Packages/User/Preferences.sublime-settings\",\n		\"/home/sahara/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings\",\n		\"/tmp/read_SPE/read_SPE.m\",\n		\"/home/sahara/my_programs/read_spe/read_spe.m\",\n		\"/home/sahara/my_programs/speconvert/speconvert.m\",\n		\"/home/sahara/.cache/.fr-daM7oe/SpeReader.m\",\n		\"/home/sahara/my_programs/plot_g2/plot_g2.m\",\n		\"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/state.cpp\",\n		\"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/state.h\",\n		\"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/controller.cpp\",\n		\"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/controller.h\",\n		\"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/stepper_motor_control.ino\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/encoder_control/encoder_control.ino\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/stepper_motor_control/stepper_motor_control.ino\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/Step.h\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/Step.cpp\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/state.h\",\n		\"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/examples/string_vector_play/string_vector_play.ino\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/main.cpp\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/controller.h\",\n		\"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/contoller.cpp\",\n		\"/home/sahara/.arduino/preferences.txt\",\n		\"/media/sahara/Daten/teaching/tutorium/SS_2014/uebung2/Mathe_1.tex\",\n		\"/usr/share/applications/sublime-text-2.desktop\",\n		\"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/ostream.cpp\",\n		\"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/ostream_helpers\",\n		\"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/ostream\",\n		\"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/iostream\",\n		\"/tmp/Scan-FPGA.vi\",\n		\"/home/sahara/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap\",\n		\"/home/sahara/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap\",\n		\"/usr/share/arduino-1.0.5/libraries/DigitalIO/DigitalIO.cpp\",\n		\"/usr/share/arduino-1.0.5/libraries/DigitalIO/DigitalIO.h\",\n		\"/usr/share/arduino-1.0.5/libraries/Stepper/Stepper.h\",\n		\"/usr/share/arduino-1.0.5/libraries/Stepper/Stepper.cpp\",\n		\"/usr/share/arduino-1.0.5/libraries/my_stepper/my_stepper.h\",\n		\"/home/sahara/Desktop/Test/Test.cpp\",\n		\"/home/sahara/Arduino_Build/christian_stepper/christian_stepper.ino.cpp\",\n		\"/home/sahara/Desktop/ultimate_stepper/translation_stage_control/encoder.ino\",\n		\"/home/sahara/Desktop/ultimate_stepper/encoder.ino\",\n		\"/home/sahara/my_programs/scan_color_plot/scan_color_plot.m\",\n		\"/home/sahara/my_programs/plot_spectrum/plot_spectrum.m\",\n		\"/home/sahara/my_programs/scan_differende_plot/scan_difference_plot.m\",\n		\"/home/sahara/Desktop/encoder/encoder_single_arduino_per_direction.ino\",\n		\"/home/sahara/bin/arduino_make.py\",\n		\"/usr/share/arduino-1.0.5/hardware/arduino/boards.txt\",\n		\"/home/sahara/my_programs/scan_color_plot/ColorPlot.m\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/manual/find_emitter.tex\",\n		\"/home/sahara/Desktop/plot_file.py\",\n		\"/home/sahara/Desktop/ultimate_stepper/backup.ino\",\n		\"/home/sahara/my_programs/g2_fit/g2_fit_mit_LMFnlsq_fuerSarah.m\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/backup/114.svg\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_115_X8Y44_t60_1.txt\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_108_X14Y1_1.txt\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_104_X23Y51_1.txt\",\n		\"/home/sahara/.config/sublime-text-2/Packages/User/JSON.sublime-settings\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_115_X8Y44_g2.dat\",\n		\"/home/sahara/.bashrc\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_115_X28Y48_g2.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_114_X33Y23_g2_calc.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_112_X37Y38_g2_calc.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_110_X41Y50_g2_calc.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_108_X14Y1_g2_calc.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_109_X14Y47_g2_2_ca.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_105_X38Y15_g2_calc.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_104_X23Y51_g2_calc.dat\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_104_X17Y31_g2_calc.dat\",\n		\"/home/sahara/my_programs/g2_fit/LMFnlsq.m\",\n		\"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_103_X6Y31_g2_calc.dat\",\n		\"/home/sahara/.config/sublime-text-2/Packages/User/matlab.sublime-build\",\n		\"/home/sahara/Desktop/consecutivity.cpp\",\n		\"/home/sahara/Desktop/scatterplot.py\",\n		\"/home/sahara/Desktop/scatterplot1.py\",\n		\"/home/sahara/Desktop/encoder.ino\",\n		\"/media/Daten/setup/arduino/stepper_adafruit/stepper_adafruit.ino\",\n		\"/media/Daten/setup/arduino/stepper_pololu/stepper_pololu.ino\",\n		\"/media/Daten/setup/arduino/stepper_control/stepper_control.ino\",\n		\"/home/sahara/Desktop/stepper_control/stepper_control.ino\",\n		\"/home/sahara/Desktop/stepper_control_encoder_complicated/stepper_control_encoder_complicated.ino\",\n		\"/home/sahara/Desktop/stepper_control_encoder_no_interrupt/stepper_control_encoder_no_interrupt.ino\",\n		\"/usr/share/arduino-1.0.5/libraries/Encoder/Encoder.h\",\n		\"/usr/share/arduino-1.0.5/libraries/Encoder/Encoder.cpp\",\n		\"/home/sahara/Desktop/stepper_with_encoder_library/stepper_with_encoder_library.ino\",\n		\"/home/sahara/Desktop/reset_arduino.py \",\n		\"/home/sahara/Desktop/stepper_accel_try/stepper_accel_try.ino\",\n		\"/home/sahara/Desktop/single_arduino _per_direction/single_arduino_per_direction.ino\",\n		\"/media/Daten/setup/arduino/try_cpp/try_cpp.cpp\",\n		\"/media/Daten/setup/arduino/hello_world/hello_world.ino\",\n		\"/media/Daten/setup/arduino/headers/try.h\",\n		\"/home/sahara/Desktop/fastdigitalwrite/DigitalIO/DigitalIO.cpp\",\n		\"/home/sahara/Desktop/software_reset.ino\",\n		\"/media/Daten/setup/digital_serial_read/digital_serial_read.ino.cpp\",\n		\"/media/Daten/setup/hello_world/hello_world.ino.cpp\",\n		\"/media/Daten/setup/stepper_adafruit/stepper_adafruit.ino.cpp\",\n		\"/media/Daten/setup/switch1/switch1.ino.cpp\",\n		\"/media/Daten/setup/arduino/stepper_accel_try/stepper_accel_try.ino\",\n		\"/home/sahara/.gvfs/daten on agbecher022/3_channels/test_3_channels.cpp\",\n		\"/media/Daten/measurements/3_channels_andreas/test_3_channels.cpp\",\n		\"/media/Daten/measurements/3_channels_andreas/3_channel.cpp\",\n		\"/media/Daten/setup/stepper_lib_try/stepper_lib_try.ino\",\n		\"/media/Daten/setup/arduino/try_library/try_library.ino\",\n		\"/usr/share/arduino-1.0.5/libraries/StandardCplusplus-master/examples/string_vector/string_vector.ino\",\n		\"/media/Daten/setup/arduino/christian_stepper/christian_stepper.ino\",\n		\"/media/Daten/setup/arduino/christian_stepper.ino\",\n		\"/media/Daten/setup/arduino/stepper_control/stepper_control_test.ino\",\n		\"/usr/share/arduino/examples/1.Basics/DigitalReadSerial/DigitalReadSerial.ino\",\n		\"/usr/share/arduino/libraries/SoftwareSerial/SoftwareSerial.cpp\",\n		\"/media/Daten/setup/arduino/digital_serial_read/digital_serial_read.ino\",\n		\"/media/Daten/setup/arduino/digital_serial_read.ino\",\n		\"/media/Daten/setup/arduino/switch4/switch4.pde\",\n		\"/media/Daten/setup/arduino/switch1/digital_serial_read.ino\",\n		\"/home/sahara/Arduino_Build/arduino/arduino.ino.cpp\",\n		\"/media/Daten/setup/arduino/stepper_adafruit.ino\",\n		\"/media/Daten/setup/arduino/switch1/switch1.pde\",\n		\"/usr/share/applications/sublime.desktop\"\n	],\n	\"find\":\n	{\n		\"height\": 35.0\n	},\n	\"find_in_files\":\n	{\n		\"height\": 0.0,\n		\"where_history\":\n		[\n			\"\",\n			\"Step.cpp, Step.h, stepper_motor_control.ino\",\n			\"<open files>\"\n		]\n	},\n	\"find_state\":\n	{\n		\"case_sensitive\": true,\n		\"find_history\":\n		[\n			\"Data\",\n			\"range\",\n			\"Mean\",\n			\"Range\",\n			\"Data\",\n			\"DataNormalized\",\n			\"xDataAdjusted\",\n			\"xOffsetCorrected\",\n			\"xData\",\n			\"yMean\",\n			\"yRange\",\n			\"yDataIn\",\n			\"yDataNormalized\",\n			\"ydat\",\n			\"xdat\",\n			\"wra\",\n			\"dataInFileStub\",\n			\"filename\",\n			\"function [data] = read_spe('/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-2/scan_z_25_25_ul_x29y12_spectrum.SPE')\\n   fid=fopen('/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-2/scan_z_25_25_ul_x29y12_spectrum.SPE','r','ieee-le');\\n\\n   [header,count]=fread(fid,4100,'uint8');\\n   dataType=header(109);\\n   xdim=header(43) + header(44)*2^8;\\n   ydim=header(657) + header(658)*2^8;\\n   frames=header(1447) + header(1448)*2^8 +header(1449)*2^16 + header(1450)*2^24;\\n\\n   strDataType={'float32','int32','int16','uint16'};\\n   if (dataType>3)\\n      fclose(fid);\\n      fprintf(strcat('Unknown WinSpec data type: ',num2str(dataType)));\\n      clear data;\\n      data=[];\\n      return;\\n   end;\\n\\n   data=zeros(xdim,ydim,frames,strDataType{dataType+1});\\n   [data,count]=fread(fid,inf,strcat(strDataType{dataType+1},'=>',strDataType{dataType+1}));\\n   data2=reshape(data,xdim,ydim,frames);\\n   clear data;\\n   data=permute(data2,[2 1 3]);\\n   clear data2;\\n   fclose(fid);\",\n			\";\\n\",\n			\"controller\",\n			\"controller-\",\n			\"<< std::endl\",\n			\"std::cout <<\",\n			\"vec\",\n			\"basic_oserialstream\",\n			\"ctrl+alt+s\",\n			\"save\",\n			\" movement\",\n			\"movement\",\n			\"SetMovement\",\n			\"print_directions\",\n			\"delay_time\",\n			\"test\",\n			\"micro_step1\",\n			\"10\",\n			\"microstep\",\n			\"encoderTick\",\n			\"digitalReadFast\",\n			\"Ticks\",\n			\"Pin\",\n			\"_LeftEncoder\",\n			\"LeftEncoder\",\n			\"c_LeftEncoder\",\n			\"_LeftEncoder\",\n			\"_LeftEncoderASet\",\n			\"_LeftEncoderBSet\",\n			\"HandleLeftMotorInterruptA\",\n			\"Bnew\",\n			\"Aold\",\n			\"delay\",\n			\"delay(\",\n			\"encoderInterruptA\",\n			\"encoderPinA\",\n			\"B1new\",\n			\"nx\",\n			\"dateiin2\",\n			\"dateiin1\",\n			\"z\",\n			\"MIN\",\n			\"min\",\n			\"MIN\",\n			\"input_file\",\n			\"in\",\n			\"In\",\n			\"in\",\n			\"In\",\n			\"in\",\n			\"data_in_file_name\",\n			\"in\",\n			\"dateiin\",\n			\"fitFileIn\",\n			\"myFolder\",\n			\"dataFileIn\",\n			\"dataInFileName\",\n			\"fitInFileName\",\n			\"pcolor\",\n			\"');\\n\",\n			\"pcolor(dateiin1);   \\ncolormap(jet(64));\",\n			\"figure; \\npcolor(value);   \\ncolormap(jet(64));\\nview(2);  \\naxis square; %shading interp;\\nset(gca,'FontSize',14); \\n\\nxlabel(texlabel('X-axis (pixel)'),'fontsize',16); \\nylabel(texlabel('Y-axis (pixel)'),'fontsize',16);\\n\\nh = colorbar('EastOutside');\",\n			\")\\n\",\n			\"1\",\n			\"\\\":[\\\"\",\n			\"30\",\n			\"18\",\n			\"figure; plot(xdat,ydat,'-k','LineWidth', 1)\\nhold on;\\n% Plottet die gefittet Funktion\\nplot(xdat,yfit,'--b', 'LineWidth', 3)\\nhold off\",\n			\",\",\n			\"-\",\n			\"baseFileName\",\n			\".\",\n			\"11731843575419\",\n			\".\",\n			\",\",\n			\"876517048738201\",\n			\",\",\n			\"04026199190907\",\n			\"A1old\",\n			\"B1new\",\n			\"Bnew\",\n			\"Aold\",\n			\"Bnew\",\n			\"a\",\n			\"A\",\n			\"B\",\n			\"Bnew\",\n			\"B\",\n			\"B1\",\n			\"encoderPinB1\",\n			\"XOR\",\n			\" && B1new^A1old\",\n			\"steppin\",\n			\"stepPin\",\n			\"steppin\",\n			\"stepPin\",\n			\"steppin\",\n			\"stepPin\",\n			\"HandleInterruptA\",\n			\"np.loadtxt(\",\n			\"python\",\n			\"’\",\n			\"’r’\",\n			\"’\",\n			\"’r’\",\n			\"x’\",\n			\"’\",\n			\"’Plot\",\n			\"x’\",\n			\"’\"\n		],\n		\"highlight\": true,\n		\"in_selection\": false,\n		\"preserve_case\": false,\n		\"regex\": false,\n		\"replace_history\":\n		[\n			\")\",\n			\"Serial.println(\",\n			\"Movement\",\n			\"delayMicroseconds(\",\n			\"data_file_input2\",\n			\"data_file_input1\",\n			\"min_value\",\n			\"data_file_input\",\n			\".\"\n		],\n		\"reverse\": false,\n		\"show_context\": true,\n		\"use_buffer2\": true,\n		\"whole_word\": false,\n		\"wrap\": true\n	},\n	\"groups\":\n	[\n		{\n			\"sheets\":\n			[\n			]\n		}\n	],\n	\"incremental_find\":\n	{\n		\"height\": 35.0\n	},\n	\"input\":\n	{\n		\"height\": 87.0\n	},\n	\"layout\":\n	{\n		\"cells\":\n		[\n			[\n				0,\n				0,\n				1,\n				1\n			]\n		],\n		\"cols\":\n		[\n			0.0,\n			1.0\n		],\n		\"rows\":\n		[\n			0.0,\n			1.0\n		]\n	},\n	\"menu_visible\": true,\n	\"output.Desktop\":\n	{\n		\"height\": 142.0\n	},\n	\"output.arduino\":\n	{\n		\"height\": 224.0\n	},\n	\"output.backup_arduino\":\n	{\n		\"height\": 315.0\n	},\n	\"output.christian_stepper\":\n	{\n		\"height\": 124.0\n	},\n	\"output.digital_serial_read\":\n	{\n		\"height\": 124.0\n	},\n	\"output.encoder\":\n	{\n		\"height\": 198.0\n	},\n	\"output.exec\":\n	{\n		\"height\": 166.0\n	},\n	\"output.hello_world\":\n	{\n		\"height\": 224.0\n	},\n	\"output.single_arduino _per_direction\":\n	{\n		\"height\": 142.0\n	},\n	\"output.stepper_accel_try\":\n	{\n		\"height\": 142.0\n	},\n	\"output.stepper_adafruit\":\n	{\n		\"height\": 153.0\n	},\n	\"output.stepper_control\":\n	{\n		\"height\": 187.0\n	},\n	\"output.stepper_control_encoder_complicated\":\n	{\n		\"height\": 124.0\n	},\n	\"output.stepper_control_encoder_no_interrupt\":\n	{\n		\"height\": 124.0\n	},\n	\"output.stepper_pololu\":\n	{\n		\"height\": 124.0\n	},\n	\"output.stepper_with_encoder_library\":\n	{\n		\"height\": 56.0\n	},\n	\"output.stino_log\":\n	{\n		\"height\": 124.0\n	},\n	\"output.string_vector\":\n	{\n		\"height\": 175.0\n	},\n	\"output.switch1\":\n	{\n		\"height\": 243.0\n	},\n	\"output.translation_stage_control\":\n	{\n		\"height\": 142.0\n	},\n	\"output.try_library\":\n	{\n		\"height\": 329.0\n	},\n	\"output.ultimate_stepper\":\n	{\n		\"height\": 142.0\n	},\n	\"replace\":\n	{\n		\"height\": 70.0\n	},\n	\"save_all_on_build\": true,\n	\"select_file\":\n	{\n		\"height\": 0.0,\n		\"selected_items\":\n		[\n			[\n				\"\",\n				\"switch4.pde\"\n			]\n		],\n		\"width\": 0.0\n	},\n	\"select_project\":\n	{\n		\"height\": 500.0,\n		\"selected_items\":\n		[\n		],\n		\"width\": 380.0\n	},\n	\"show_minimap\": true,\n	\"show_open_files\": true,\n	\"show_tabs\": true,\n	\"side_bar_visible\": true,\n	\"side_bar_width\": 150.0,\n	\"status_bar_visible\": true\n}\n",
-			"file": "g2.sublime-workspace",
-			"file_size": 15429,
-			"file_write_time": 1403621239000000,
-			"settings":
-			{
-				"buffer_size": 15410,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "function [dataAdjusted] = adjust_x(data, binwidth)\n% Adjusts binnig to specified bin width.\n	\n	% sanity checks\n	if  ~isvector(data)\n		error ('Input data is not an array.')\n	end\n\n	if nargin ~= 2\n	    error('Wrong number of input arguments')\n	end\n\n\n\n	dataAdjusted =  subtract_offset(data) * binwidth;",
-			"file": "adjust_x.m",
-			"file_size": 296,
-			"file_write_time": 1403547182000000,
-			"settings":
-			{
-				"buffer_size": 298,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "function [dataAdjusted] = adjust_x(data, binwidth)\n% Adjusts binnig to specified bin width.\n	\n	dataAdjusted =  subtract_offset(data, timeWindow) * binwidth;",
-			"file": "adjustbinning.m",
-			"file_size": 154,
-			"file_write_time": 1402595306000000,
-			"settings":
-			{
-				"buffer_size": 156,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "function[dataNormalized] = normalize_g2(data, normalizationRange)\n% Normalizes the g2 function by setting the mean of the outermost data points (number given by normalizationRange) to 1.\n	\n	% sanity checks\n	if  ~isvector(data)\n		error ('Input data is not an array.')\n	end\n\n	if nargin ~= 2\n	    error('Wrong number of input arguments')\n	end\n\n\n	dataInRange = data(1:normalizationRange); % use the first few values\n\n	dataNormalized = data./ mean(dataInRange);",
-			"file": "normalize_g2.m",
-			"file_size": 455,
-			"file_write_time": 1403546833000000,
-			"settings":
-			{
-				"buffer_size": 456,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"contents": "function [dataOffsetCorrected] = subtract_offset(data)\n% Subtracts the offset of the x data such that g2 dip is at 0.\n	\n	% sanity checks\n	if  ~isvector(data)\n		error ('Input data is not an array.')\n	end\n\n	if nargin ~= 1\n	    error('Wrong number of input arguments')\n	end\n\n\n	dataOffsetCorrected = (data - length(data)/2);",
-			"file": "subtract_offset.m",
-			"file_size": 319,
-			"file_write_time": 1403547169000000,
-			"settings":
-			{
-				"buffer_size": 320,
-				"line_ending": "Unix"
+				"buffer_size": 1824,
+				"line_ending": "Windows"
 			}
 		}
 	],
@@ -406,15 +378,29 @@
 	},
 	"file_history":
 	[
+		"/media/sahara/Daten/my_programs/g2/LMFnlsq.m",
+		"/home/sahara/my_programs/plot_spectrum/plot_spectrum.m",
+		"/home/sahara/my_programs/plot_z_scan/plot_z_scan.m",
+		"/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
+		"/home/sahara/Desktop/Test/Test.cpp",
+		"/home/sahara/Desktop/Step/Step.cpp",
+		"/home/sahara/my_programs/g2/try_save.m",
+		"/home/sahara/my_programs/g2_fit/g2_fit_mit_LMFnlsq_fuerSarah.m",
+		"/home/sahara/my_programs/g2/FitG2.m",
 		"/home/sahara/my_programs/g2/g2_plot.m",
-		"/home/sahara/my_programs/g2/adjust_x.m",
 		"/home/sahara/my_programs/g2/g2.sublime-workspace",
+		"/home/sahara/my_programs/g2/LMFnlsq.m",
+		"/home/sahara/my_programs/g2/fit.m",
+		"/home/sahara/my_programs/g2/normalize_g2.m",
+		"/home/sahara/my_programs/g2/subtract_offset.m",
+		"/home/sahara/my_programs/g2/adjust_x.m",
 		"/home/sahara/my_programs/g2/adjustbinning.m",
+		"/home/sahara/my_programs/g2/subtractoffset.m",
+		"/home/sahara/my_programs/g2/normalizeG2.m",
+		"/home/sahara/my_programs/g2/adjustX.m",
 		"/home/sahara/my_programs/g2/g2.sublime-project",
 		"/etc/aliases",
 		"/etc/alias",
-		"/home/sahara/my_programs/g2/normalize_g2.m",
-		"/home/sahara/my_programs/g2/subtract_offset.m",
 		"/usr/bin/cronjobs/backup_Daten",
 		"/home/sahara/my_programs/try/try_error.m",
 		"/home/sahara/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
@@ -453,12 +439,9 @@
 		"/usr/share/arduino-1.0.5/libraries/Stepper/Stepper.h",
 		"/usr/share/arduino-1.0.5/libraries/Stepper/Stepper.cpp",
 		"/usr/share/arduino-1.0.5/libraries/my_stepper/my_stepper.h",
-		"/home/sahara/Desktop/Test/Test.cpp",
 		"/home/sahara/Arduino_Build/christian_stepper/christian_stepper.ino.cpp",
 		"/home/sahara/Desktop/ultimate_stepper/translation_stage_control/encoder.ino",
 		"/home/sahara/Desktop/ultimate_stepper/encoder.ino",
-		"/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
-		"/home/sahara/my_programs/plot_spectrum/plot_spectrum.m",
 		"/home/sahara/my_programs/scan_differende_plot/scan_difference_plot.m",
 		"/home/sahara/Desktop/encoder/encoder_single_arduino_per_direction.ino",
 		"/home/sahara/bin/arduino_make.py",
@@ -467,7 +450,6 @@
 		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/manual/find_emitter.tex",
 		"/home/sahara/Desktop/plot_file.py",
 		"/home/sahara/Desktop/ultimate_stepper/backup.ino",
-		"/home/sahara/my_programs/g2_fit/g2_fit_mit_LMFnlsq_fuerSarah.m",
 		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/backup/114.svg",
 		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_115_X8Y44_t60_1.txt",
 		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_108_X14Y1_1.txt",
@@ -523,15 +505,7 @@
 		"/media/Daten/setup/arduino/christian_stepper.ino",
 		"/media/Daten/setup/arduino/stepper_control/stepper_control_test.ino",
 		"/usr/share/arduino/examples/1.Basics/DigitalReadSerial/DigitalReadSerial.ino",
-		"/usr/share/arduino/libraries/SoftwareSerial/SoftwareSerial.cpp",
-		"/media/Daten/setup/arduino/digital_serial_read/digital_serial_read.ino",
-		"/media/Daten/setup/arduino/digital_serial_read.ino",
-		"/media/Daten/setup/arduino/switch4/switch4.pde",
-		"/media/Daten/setup/arduino/switch1/digital_serial_read.ino",
-		"/home/sahara/Arduino_Build/arduino/arduino.ino.cpp",
-		"/media/Daten/setup/arduino/stepper_adafruit.ino",
-		"/media/Daten/setup/arduino/switch1/switch1.pde",
-		"/usr/share/applications/sublime.desktop"
+		"/usr/share/arduino/libraries/SoftwareSerial/SoftwareSerial.cpp"
 	],
 	"find":
 	{
@@ -539,9 +513,10 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
+			"<open files>",
 			"",
 			"Step.cpp, Step.h, stepper_motor_control.ino",
 			"<open files>"
@@ -552,9 +527,49 @@
 		"case_sensitive": true,
 		"find_history":
 		[
-			"subtract_offset",
-			"adjust_x",
-			"normalize_g2",
+			"cHandle",
+			"fHandle",
+			"hFigure",
+			"data_file_input",
+			"dataInFileName",
+			"data_data_file_input_name",
+			"input_folder",
+			"yData",
+			"-yData",
+			"xData",
+			"_s",
+			"t0_start",
+			"_s",
+			"t0_start",
+			"_s",
+			"(1 + erf(0.5 * ((-p(2) + xdat) * p(3)-w^2",
+			"(1 + erf(0.5 * ((-p(2) + xData) * p(3)-w^2",
+			"(1 + erf(0.5 * ((-p(2) + xData) * p(3)-obj.widthHbt^2",
+			"*",
+			" (",
+			"*",
+			"+",
+			"p",
+			"1+p",
+			"+",
+			"2",
+			"p",
+			"1+p",
+			"+",
+			"p",
+			"1+p",
+			"+",
+			"obj.w",
+			"obj",
+			"w",
+			"data",
+			"xdat",
+			"pdat",
+			"normalizeG2",
+			"adjustX",
+			"subtractoffset",
+			"adjustX",
+			"normalizeG2",
 			"Gauss",
 			"Faltung",
 			"year",
@@ -639,47 +654,7 @@
 			"');\n",
 			"pcolor(dateiin1);   \ncolormap(jet(64));",
 			"figure; \npcolor(value);   \ncolormap(jet(64));\nview(2);  \naxis square; %shading interp;\nset(gca,'FontSize',14); \n\nxlabel(texlabel('X-axis (pixel)'),'fontsize',16); \nylabel(texlabel('Y-axis (pixel)'),'fontsize',16);\n\nh = colorbar('EastOutside');",
-			")\n",
-			"1",
-			"\":[\"",
-			"30",
-			"18",
-			"figure; plot(xdat,ydat,'-k','LineWidth', 1)\nhold on;\n% Plottet die gefittet Funktion\nplot(xdat,yfit,'--b', 'LineWidth', 3)\nhold off",
-			",",
-			"-",
-			"baseFileName",
-			".",
-			"11731843575419",
-			".",
-			",",
-			"876517048738201",
-			",",
-			"04026199190907",
-			"A1old",
-			"B1new",
-			"Bnew",
-			"Aold",
-			"Bnew",
-			"a",
-			"A",
-			"B",
-			"Bnew",
-			"B",
-			"B1",
-			"encoderPinB1",
-			"XOR",
-			" && B1new^A1old",
-			"steppin",
-			"stepPin",
-			"steppin",
-			"stepPin",
-			"steppin",
-			"stepPin",
-			"HandleInterruptA",
-			"np.loadtxt(",
-			"python",
-			"’",
-			"’r’"
+			")\n"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -687,6 +662,13 @@
 		"regex": false,
 		"replace_history":
 		[
+			" * ",
+			" ( ",
+			" * ",
+			" *  ",
+			" + ",
+			"normalize_g2",
+			"adjust_x",
 			"subtract_offset",
 			"adjust_x",
 			"normalize_g2",
@@ -717,15 +699,15 @@
 					"file": "g2_plot.m",
 					"settings":
 					{
-						"buffer_size": 1441,
+						"buffer_size": 2230,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1329,
-								1329
+								819,
+								819
 							]
 						],
 						"settings":
@@ -733,25 +715,25 @@
 							"syntax": "Packages/Matlab/Matlab.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 57.0,
+						"translation.y": 1056.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": "fit.m",
+					"file": "FitG2.m",
 					"settings":
 					{
-						"buffer_size": 1763,
+						"buffer_size": 3861,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14,
-								14
+								57,
+								57
 							]
 						],
 						"settings":
@@ -768,36 +750,10 @@
 				},
 				{
 					"buffer": 2,
-					"file": "/home/sahara/my_programs/g2_fit/g2_fit_mit_LMFnlsq_fuerSarah.m",
+					"file": "/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
 					"settings":
 					{
-						"buffer_size": 2465,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1875,
-								1875
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Matlab/Matlab.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 456.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 3,
-					"file": "g2.sublime-workspace",
-					"settings":
-					{
-						"buffer_size": 15410,
+						"buffer_size": 1824,
 						"regions":
 						{
 						},
@@ -806,112 +762,6 @@
 							[
 								0,
 								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Text/Plain text.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "adjust_x.m",
-					"settings":
-					{
-						"buffer_size": 298,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Matlab/Matlab.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "adjustbinning.m",
-					"settings":
-					{
-						"buffer_size": 156,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Matlab/Matlab.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "normalize_g2.m",
-					"settings":
-					{
-						"buffer_size": 456,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Matlab/Matlab.tmLanguage",
-							"translate_tabs_to_spaces": false
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 7,
-					"file": "subtract_offset.m",
-					"settings":
-					{
-						"buffer_size": 320,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								48,
-								48
 							]
 						],
 						"settings":
