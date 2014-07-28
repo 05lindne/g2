@@ -2,7 +2,11 @@
 	"folders":
 	[
 		{
+<<<<<<< HEAD
 			"path": "/Users/saharahome/Documents/work/g2_fit"
+=======
+			"path": "/home/sahara/my_programs/g2"
+>>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
 		}
 	]
 }

@@ -252,12 +252,42 @@
 	"buffers":
 	[
 		{
+<<<<<<< HEAD
 			"file": "/Users/saharahome/.profile",
 			"settings":
 			{
 				"buffer_size": 73,
 				"line_ending": "Unix",
 				"name": "# color scheme"
+=======
+			"contents": "%{\n@file g2.m\n@brief Read in g2 data of correlated click lists ( i.e. output of g2calc) and plot a normalized offset-subtracted, fitted g2.\n@author Sarah Lindner\n@date 12.06.2014\n\nLines of text which are to be modified by user are maked with >>>\n\n@todo \nonly works for data of new lab, build variable \nimplement fit class\ntake maxiter out of fit class\n\n%}\n\n% Initialize parameters\nclear all; close all;\n\n\n\n\n% INPUT HERE---------------------------------------------------------\n\n% >>> specify directory which contains the correlation data\nmyFolder = '/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-V2/140606/g2/';\n% >>> specify file name of the correlation data file without extension\nbaseFileName = 'scan_xy_25_25_ll_x20y23_g2';\n% >>> specify extension of the correlation data file\ndataInFileExtension = '.txt';\ndataInFileName = [ baseFileName, dataInFileExtension ]\n\n% >>> specify measurement performed in new or old lab ( for binning of time tag module, width of HBT response function)\nlab = 'new'; %'old'\n\n% >>> specify the number of datapoints which should be used as normalization reference\nnormalization_range = 200;\n% >>> specify starting values for g2 fit\na   = 0.6;\nt0  = -0.75;\nt1  = 1.4;\nt2  = 1100;\ny0  = 1;\npf  = 0.9372;\n\n%----------------------------------------------------------------------\n\n\n\n\n\n% read in data\ndataFileIn=dlmread(fullfile(myFolder, dataInFileName), '\\t');\n% save data in 1D arrays\nxDataIn = dataFileIn(:,1);\nyDataIn = dataFileIn(:,2);\n\n% set binning of time tag module and width of HBT response function\nif ( lab == 'new')\n	binWidth 	= 0.078;\n	widthHbt	= 0.296;\nelseif ( lab == 'old')\n	binWidth 	= 0.078;%?????????????????????????????????????????????????????????\n	widthHbt	= 0.354;\nelse\n	error ('Wrong input for lab')\nend\n\n% put measured data in desired format\nxDataAdjusted = adjust_x( xDataIn, binWidth );\nyDataNormalized = normalize_g2( yDataIn, normalization_range );\n\n%calculate fit function\n\nfprintf('in main1')\nfitting = FitG2(a, t0, t1, t2, y0, pf, widthHbt, xDataAdjusted, yDataNormalized );\n\nfprintf('in main2')\n\nfitting.calculate_g2_fit;\n\nfprintf('in main3')\nfitting.fitParametersEnd;\nfprintf('in main4')\n\n%plot\n\n% save output\n% fitting.save_fit_data( myFolder, baseFileName );\n",
+			"file": "g2_plot.m",
+			"file_size": 2229,
+			"file_write_time": 1405615963000000,
+			"settings":
+			{
+				"buffer_size": 2230,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "classdef FitG2\n% write a description of the class here.\n\n  properties\n    % define the properties of the class here, (like fields of a struct)\n    aStart   = 0.6;\n    t0Start  = -0.75;\n    t1Start  = 1.4;\n    t2Start  = 1100;\n    y0Start  = 1;\n    pfStart  = 0.9372;\n\n    widthHbt   = 0.296;\n\n    xData;\n    yData;\n\n    fitParametersEnd;\n\n  end\n\n  methods\n  % methods, including the constructor are defined in this block\n\n    function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_y0, new_pf, new_widthHbt, new_xData, new_yData)\n    % class constructor, name of constructor function must match name of class\n      if ( nargin == 9 )\n        obj.aStart     = new_a;\n        obj.t0Start    = new_t0;\n        obj.t1Start    = new_t1;\n        obj.t2Start    = new_t2;\n        obj.y0Start    = new_y0;\n        obj.pfStart    = new_pf;\n        obj.widthHbt    = new_widthHbt;\n        obj.xData       = new_xData;\n        obj.yData       = new_yData;\n      elseif ( nargin < 9 )\n        error ('Not enough input arguments for fit.')\n      else\n        error ('Too many arguments for fit.')\n      end\n\n    end\n\n    function obj = calculate_g2_fit( obj )\n\n      fitParametersStart=[obj.aStart obj.t0Start obj.t1Start obj.t2Start obj.pfStart];\n\n      g2 =@(p) 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + obj.xData)*p(3)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3)))) + (2*obj.xData/p(3)))...\n                       + (1 + erf(0.5*((-p(2) + obj.xData)*p(3)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3))))*exp(2*p(2)/p(3)))))... \n                       + (0.5*((-2*obj.xData-2*p(2))*p(3) + obj.widthHbt^2)/p(3)^2))... %convolution gaussian with 1st exponential function\n                       + 0.5*p(1)*exp(0.5*((-2*obj.xData-2*p(2))*p(4) + obj.widthHbt^2)/p(4)^2)...  \n                      .*(exp(2*obj.xData/p(4)) + exp(2*p(2)/p(4))-erf(0.5*((-p(2) + obj.xData)*p(4)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))...\n                      .*exp(2*obj.xData/p(4)) + erf(0.5*((-p(2) + obj.xData)*p(4)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))*exp(2*p(2)/p(4))))-obj.yData; %convolution gaussian with 2. exponential function\n\n      [obj.fitParametersEnd, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000)\n\n      obj.fitParametersEnd;\n\n    end\n\n\n\n\n\n    function obj = g2_equation(obj, p)\n\n      obj.g2 = 1-p(5)^2 + p(5)^2*(1-0.5*(1 + p(1))*exp(log  (((exp    (log(1-erf(0.5*((-p(2) + obj.xData)*p(3)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3)))) + (2*obj.xData/p(3)))...\n                       + (1 + erf(0.5*((-p(2) + obj.xData)*p(3)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(3))))*exp(2*p(2)/p(3)))))... \n                       + (0.5*((-2*obj.xData-2*p(2))*p(3) + obj.widthHbt^2)/p(3)^2))... %convolution gaussian with 1st exponential function\n                       + 0.5*p(1)*exp(0.5*((-2*obj.xData-2*p(2))*p(4) + obj.widthHbt^2)/p(4)^2)...  \n                      .*(exp(2*obj.xData/p(4)) + exp(2*p(2)/p(4))-erf(0.5*((-p(2) + obj.xData)*p(4)...\n                       + obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))...\n                      .*exp(2*obj.xData/p(4)) + erf(0.5*((-p(2) + obj.xData)*p(4)-obj.widthHbt^2)*sqrt(2)/(obj.widthHbt*p(4)))*exp(2*p(2)/p(4))))-obj.yData; %convolution gaussian with 2. exponential function\n\n    end\n\n    function parameters = get.fitParametersEnd(obj)\n\n      fprintf('in member 1');\n      parameters = obj.fitParametersEnd;\n\n      fprintf('in member 2');\n    end\n\n\n    function save_fit_data( obj, myFolder, baseFileName )\n\n      dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitdata.txt']),obj.g2_equation( obj.fitParametersEnd),'precision', 8) ;\n      % dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_fitparam.txt']),x,'delimiter' ,'\\t', 'precision', 6);\n\n    end\n\n  end\n\nend",
+			"file": "FitG2.m",
+			"file_size": 3857,
+			"file_write_time": 1403697597000000,
+			"settings":
+			{
+				"buffer_size": 3861,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
+			"settings":
+			{
+				"buffer_size": 1824,
+				"line_ending": "Windows"
+>>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
 			}
 		}
 	],
@@ -357,6 +387,7 @@
 	},
 	"file_history":
 	[
+<<<<<<< HEAD
 		"/Users/saharahome/Documents/work/g2_fit/g2.sublime-workspace",
 		"/Users/saharahome/Documents/work/g2_fit/g2.sublime-project",
 		"/Users/saharahome/Downloads/g2-master 4/adjust_x.m",
@@ -365,6 +396,12 @@
 		"/media/sahara/Daten/my_programs/g2/LMFnlsq.m",
 		"/home/sahara/my_programs/plot_spectrum/plot_spectrum.m",
 		"/home/sahara/my_programs/plot_z_scan/plot_z_scan.m",
+=======
+		"/media/sahara/Daten/my_programs/g2/LMFnlsq.m",
+		"/home/sahara/my_programs/plot_spectrum/plot_spectrum.m",
+		"/home/sahara/my_programs/plot_z_scan/plot_z_scan.m",
+		"/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
+>>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
 		"/home/sahara/Desktop/Test/Test.cpp",
 		"/home/sahara/Desktop/Step/Step.cpp",
 		"/home/sahara/my_programs/g2/try_save.m",
@@ -484,7 +521,15 @@
 		"/media/Daten/setup/stepper_lib_try/stepper_lib_try.ino",
 		"/media/Daten/setup/arduino/try_library/try_library.ino",
 		"/usr/share/arduino-1.0.5/libraries/StandardCplusplus-master/examples/string_vector/string_vector.ino",
+<<<<<<< HEAD
 		"/media/Daten/setup/arduino/christian_stepper/christian_stepper.ino"
+=======
+		"/media/Daten/setup/arduino/christian_stepper/christian_stepper.ino",
+		"/media/Daten/setup/arduino/christian_stepper.ino",
+		"/media/Daten/setup/arduino/stepper_control/stepper_control_test.ino",
+		"/usr/share/arduino/examples/1.Basics/DigitalReadSerial/DigitalReadSerial.ino",
+		"/usr/share/arduino/libraries/SoftwareSerial/SoftwareSerial.cpp"
+>>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
 	],
 	"find":
 	{
@@ -675,22 +720,61 @@
 			[
 				{
 					"buffer": 0,
+<<<<<<< HEAD
 					"file": "/Users/saharahome/.profile",
 					"settings":
 					{
 						"buffer_size": 73,
+=======
+					"file": "g2_plot.m",
+					"settings":
+					{
+						"buffer_size": 2230,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								14,
-								14
+								819,
+								819
 							]
 						],
 						"settings":
 						{
+							"syntax": "Packages/Matlab/Matlab.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1056.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "FitG2.m",
+					"settings":
+					{
+						"buffer_size": 3861,
+>>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+<<<<<<< HEAD
+								14,
+								14
+=======
+								57,
+								57
+>>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
+							]
+						],
+						"settings":
+						{
+<<<<<<< HEAD
 							"BracketHighlighterBusy": false,
 							"auto_name": "# color scheme",
 							"bh_regions":
@@ -741,6 +825,37 @@
 								"bh_single_quote_close"
 							],
 							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+=======
+							"syntax": "Packages/Matlab/Matlab.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
+					"settings":
+					{
+						"buffer_size": 1824,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Matlab/Matlab.tmLanguage"
+>>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
