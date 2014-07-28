@@ -1,14 +1,7 @@
 classdef FitG2 < hgsetget
-<<<<<<< HEAD
 % contains all functionality needed for creating a g2 fit of measured g2 data
 
   properties
-=======
-% write a description of the class here.
-
-  properties
-    % define the properties of the class here, (like fields of a struct)
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
     aValue   = 0.6;
     t0Value  = -0.75;
     t1Value  = 1.4;
@@ -17,7 +10,6 @@ classdef FitG2 < hgsetget
 
     widthHbt   = 0.296;
 
-<<<<<<< HEAD
     xData; %array, measurement data
     yData; %array, measurement data
 
@@ -26,16 +18,6 @@ classdef FitG2 < hgsetget
 
     fitParameters; %array
     g2Data; %array
-=======
-    xData;
-    yData;
-
-    myFolder;
-    baseFileName;
-
-    fitParameters;
-    g2Data;
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
 
   end
 
@@ -43,13 +25,8 @@ classdef FitG2 < hgsetget
   % methods, including the constructor are defined in this block
 
     function obj = FitG2( new_a, new_t0, new_t1, new_t2, new_pf, new_widthHbt, new_xData, new_yData, new_myFolder, new_baseFileName)
-<<<<<<< HEAD
     % class constructor
       if ( nargin == 10 ) % sanity check
-=======
-    % class constructor, name of constructor function must match name of class
-      if ( nargin == 10 )
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
         obj.aValue     = new_a;
         obj.t0Value    = new_t0;
         obj.t1Value    = new_t1;
@@ -89,19 +66,12 @@ classdef FitG2 < hgsetget
 
 
     function calculate_g2_fit( obj )
-<<<<<<< HEAD
     %fitting routine
-=======
-
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
       fitParametersStart=[obj.aValue obj.t0Value obj.t1Value obj.t2Value obj.pfValue];
 
       g2 = obj.g2_equation;
 
-<<<<<<< HEAD
       % make least square fit using the g2 equation
-=======
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
       [calculatedFitParameters, sum_squares_residuals, iterations]=LMFnlsq(g2,fitParametersStart,'maxiter',1000);
 
       set(obj, 'aValue', calculatedFitParameters(1));
@@ -110,18 +80,12 @@ classdef FitG2 < hgsetget
       set(obj, 't2Value', calculatedFitParameters(4));
       set(obj, 'pfValue', calculatedFitParameters(5));
 
-<<<<<<< HEAD
 
       % store parameters of the evaluated fit curve
       set( obj, 'fitParameters', calculatedFitParameters(:));
 
       % store data points of the evaluated fit curve
       set(obj, 'g2Data', g2(calculatedFitParameters(:))+obj.yData); 
-=======
-      set( obj, 'fitParameters', calculatedFitParameters(:));
-
-      set(obj, 'g2Data', g2(calculatedFitParameters(:))+obj.yData);
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
     end
 
 
@@ -133,17 +97,10 @@ classdef FitG2 < hgsetget
       hFigure = figure; 
       plot(obj.xData,obj.yData,'-k','LineWidth', 1)
 
-<<<<<<< HEAD
       axis tight; %axes start/end where data starts/ends
       ylim ([ 0, Inf]);
       set(gca,'fontsize',16) %fontsize of tick numbers
       set(gca,'XTick', -2000:500:20000); %set tick interval (beginning:interval:end)
-=======
-      axis tight;
-      ylim ([ 0, Inf]);
-      set(gca,'fontsize',16) %fontsize of tick numbers
-      set(gca,'XTick', -2000:500:20000); %set tick interval
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
       set(gca,'YTick', 0:0.25:2);
       xlabel('\tau (ns)','Fontsize', 20)
       ylabel('g^{(2)}','Fontsize', 20)
@@ -157,11 +114,7 @@ classdef FitG2 < hgsetget
       plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
       hold off
 
-<<<<<<< HEAD
       % Save as eps (Because a file name is specified, the figure will be printed to a file.)
-=======
-      % Save as pdf (Because a file name is specified, the figure will be printed to a file.)
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
       plotFileName = [obj.myFolder, obj.baseFileName, '.eps']
       print(hFigure,  '-dpsc ','-r1200', plotFileName)
 
@@ -171,11 +124,7 @@ classdef FitG2 < hgsetget
 
     function detail_plot ( obj )
 
-<<<<<<< HEAD
       % plot detail of measured g2 
-=======
-      % plot entire measured g2 
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
       hFigure = figure; 
       plot(obj.xData,obj.yData,'-k','LineWidth', 1)
 
@@ -195,20 +144,13 @@ classdef FitG2 < hgsetget
       plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
       hold off
 
-<<<<<<< HEAD
       % Save as eps (Because a file name is specified, the figure will be printed to a file.)
-=======
-      % Save as pdf (Because a file name is specified, the figure will be printed to a file.)
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
       plotFileName = [obj.myFolder, obj.baseFileName, '_detail.eps']
       print(hFigure,  '-dpsc ','-r1200', plotFileName)
 
     end
 
-<<<<<<< HEAD
 
-=======
->>>>>>> d19764add2f37a989f2a71fec17e382eb178bb3c
     function save_fit_data( obj )
 
       dlmwrite(fullfile(obj.myFolder, [ obj.baseFileName, '_g2_fitdata.txt']), (obj.g2Data),'precision', 8) ;
