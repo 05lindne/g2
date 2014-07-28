@@ -1,0 +1,904 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"da",
+				"dataFileIn"
+			],
+			[
+				"in",
+				"input"
+			],
+			[
+				"new_y",
+				"new_yData"
+			],
+			[
+				"save",
+				"save_fit"
+			],
+			[
+				"bi",
+				"binWidth"
+			],
+			[
+				"fitParameters",
+				"fitParametersEnd"
+			],
+			[
+				"xD",
+				"xDataAdjusted"
+			],
+			[
+				"st",
+				"startingParameters"
+			],
+			[
+				"Fi",
+				"FitG2"
+			],
+			[
+				"normali",
+				"normalization_range"
+			],
+			[
+				"x",
+				"xdat"
+			],
+			[
+				"s",
+				"scan_z_25_25_ul_x29y12_spectrum"
+			],
+			[
+				"Ex",
+				"ExecutingFunctionA"
+			],
+			[
+				"inp",
+				"input_step_pin"
+			],
+			[
+				"re",
+				"read"
+			],
+			[
+				"F",
+				"F"
+			],
+			[
+				"Steppi",
+				"Stepping"
+			],
+			[
+				"con",
+				"control"
+			],
+			[
+				"delay",
+				"delay_time"
+			],
+			[
+				"micro",
+				"microstep"
+			],
+			[
+				"int",
+				"int	Arduino int()"
+			],
+			[
+				"micr",
+				"microstep"
+			],
+			[
+				"enc",
+				"encoderTick"
+			],
+			[
+				"A1",
+				"A1Set"
+			],
+			[
+				"B1",
+				"B1Set"
+			],
+			[
+				"pr",
+				"println"
+			],
+			[
+				"Pr",
+				"print"
+			],
+			[
+				"A",
+				"Aold"
+			],
+			[
+				"encod",
+				"encoderPos"
+			],
+			[
+				"min",
+				"min_value"
+			],
+			[
+				"ma",
+				"max1"
+			],
+			[
+				"li",
+				"list_of_filenames"
+			],
+			[
+				"ms",
+				"ms2Pin"
+			],
+			[
+				"spe",
+				"speed"
+			],
+			[
+				"ste",
+				"stepsPerRevolution"
+			],
+			[
+				"pri",
+				"print"
+			],
+			[
+				"encoder",
+				"encoderRev"
+			],
+			[
+				"B",
+				"Bnew"
+			],
+			[
+				"digi",
+				"digitalRead	Arduino digitalRead"
+			],
+			[
+				"te",
+				"temp_set_A"
+			],
+			[
+				"ol",
+				"old_A"
+			],
+			[
+				"enco",
+				"encoder_tick"
+			],
+			[
+				"old",
+				"old_A"
+			],
+			[
+				"H",
+				"HandleInterruptA"
+			],
+			[
+				"Ca",
+				"CalculateEncoderStep"
+			],
+			[
+				"q",
+				"QuadEncoder"
+			],
+			[
+				"dir",
+				"dir"
+			],
+			[
+				"stp",
+				"stp"
+			],
+			[
+				"e",
+				"encoder"
+			],
+			[
+				"T",
+				"Tick"
+			],
+			[
+				"di",
+				"digitalWrite	Arduino digitalWrite"
+			],
+			[
+				"dela",
+				"delay_time"
+			],
+			[
+				"new",
+				"new_motor"
+			],
+			[
+				"en",
+				"end_xforward_state"
+			],
+			[
+				"i",
+				"if	Arduino if"
+			],
+			[
+				"pu",
+				"push_button_xforward"
+			],
+			[
+				"pin",
+				"pinMode	Arduino pinMode"
+			],
+			[
+				"p",
+				"println"
+			],
+			[
+				"dirc",
+				"direct"
+			],
+			[
+				"state",
+				"state_old"
+			],
+			[
+				"sta",
+				"state_old"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/saharahome/.profile",
+			"settings":
+			{
+				"buffer_size": 73,
+				"line_ending": "Unix",
+				"name": "# color scheme"
+			}
+		}
+	],
+	"build_system": "Packages/C++/C++.sublime-build",
+	"command_palette":
+	{
+		"height": 306.0,
+		"selected_items":
+		[
+			[
+				"Package Control: ",
+				"Package Control: List Packages"
+			],
+			[
+				"Package Control: i",
+				"Package Control: Install Package"
+			],
+			[
+				"p",
+				"Package Control: Install Package"
+			],
+			[
+				"Pa",
+				"Package Control: List Packages"
+			],
+			[
+				"pro",
+				"Project: Save As"
+			],
+			[
+				"Package Control: Ins",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: Install",
+				"Package Control: Install Package"
+			],
+			[
+				"pa",
+				"Package Control: Install Package"
+			],
+			[
+				"packin",
+				"Package Control: Install Package"
+			],
+			[
+				"ar",
+				"Package Control: Add Repository"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"i",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Preferences: Browse Packages"
+			],
+			[
+				"get",
+				"Package Control: Add Repository"
+			],
+			[
+				"pack",
+				"Preferences: Browse Packages"
+			],
+			[
+				"pare",
+				"Package Control: Remove Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 153.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/saharahome/Documents/work/g2_fit/g2.sublime-workspace",
+		"/Users/saharahome/Documents/work/g2_fit/g2.sublime-project",
+		"/Users/saharahome/Downloads/g2-master 4/adjust_x.m",
+		"/home/sahara/my_programs/scan_color_plot/scan_color_plot.m",
+		"/Users/saharahome/Documents/work/g2/g2_plot.m",
+		"/media/sahara/Daten/my_programs/g2/LMFnlsq.m",
+		"/home/sahara/my_programs/plot_spectrum/plot_spectrum.m",
+		"/home/sahara/my_programs/plot_z_scan/plot_z_scan.m",
+		"/home/sahara/Desktop/Test/Test.cpp",
+		"/home/sahara/Desktop/Step/Step.cpp",
+		"/home/sahara/my_programs/g2/try_save.m",
+		"/home/sahara/my_programs/g2_fit/g2_fit_mit_LMFnlsq_fuerSarah.m",
+		"/home/sahara/my_programs/g2/FitG2.m",
+		"/home/sahara/my_programs/g2/g2_plot.m",
+		"/home/sahara/my_programs/g2/g2.sublime-workspace",
+		"/home/sahara/my_programs/g2/LMFnlsq.m",
+		"/home/sahara/my_programs/g2/fit.m",
+		"/home/sahara/my_programs/g2/normalize_g2.m",
+		"/home/sahara/my_programs/g2/subtract_offset.m",
+		"/home/sahara/my_programs/g2/adjust_x.m",
+		"/home/sahara/my_programs/g2/adjustbinning.m",
+		"/home/sahara/my_programs/g2/subtractoffset.m",
+		"/home/sahara/my_programs/g2/normalizeG2.m",
+		"/home/sahara/my_programs/g2/adjustX.m",
+		"/home/sahara/my_programs/g2/g2.sublime-project",
+		"/etc/aliases",
+		"/etc/alias",
+		"/usr/bin/cronjobs/backup_Daten",
+		"/home/sahara/my_programs/try/try_error.m",
+		"/home/sahara/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/sahara/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/tmp/read_SPE/read_SPE.m",
+		"/home/sahara/my_programs/read_spe/read_spe.m",
+		"/home/sahara/my_programs/speconvert/speconvert.m",
+		"/home/sahara/.cache/.fr-daM7oe/SpeReader.m",
+		"/home/sahara/my_programs/plot_g2/plot_g2.m",
+		"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/state.cpp",
+		"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/state.h",
+		"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/controller.cpp",
+		"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/controller.h",
+		"/home/sahara/Dropbox/work/stepper_control/stepper_motor_control/stepper_motor_control.ino",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/encoder_control/encoder_control.ino",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/stepper_motor_control/stepper_motor_control.ino",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/Step.h",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/Step.cpp",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/state.h",
+		"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/examples/string_vector_play/string_vector_play.ino",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/main.cpp",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/controller.h",
+		"/media/sahara/Daten/setup/arduino/my_programs/split_work/Step/contoller.cpp",
+		"/home/sahara/.arduino/preferences.txt",
+		"/media/sahara/Daten/teaching/tutorium/SS_2014/uebung2/Mathe_1.tex",
+		"/usr/share/applications/sublime-text-2.desktop",
+		"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/ostream.cpp",
+		"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/ostream_helpers",
+		"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/ostream",
+		"/usr/share/arduino-1.0.5/libraries/StandardCplusplusMaster/iostream",
+		"/tmp/Scan-FPGA.vi",
+		"/home/sahara/.config/sublime-text-2/Packages/User/Default (Linux).sublime-keymap",
+		"/home/sahara/.config/sublime-text-2/Packages/Default/Default (Linux).sublime-keymap",
+		"/usr/share/arduino-1.0.5/libraries/DigitalIO/DigitalIO.cpp",
+		"/usr/share/arduino-1.0.5/libraries/DigitalIO/DigitalIO.h",
+		"/usr/share/arduino-1.0.5/libraries/Stepper/Stepper.h",
+		"/usr/share/arduino-1.0.5/libraries/Stepper/Stepper.cpp",
+		"/usr/share/arduino-1.0.5/libraries/my_stepper/my_stepper.h",
+		"/home/sahara/Arduino_Build/christian_stepper/christian_stepper.ino.cpp",
+		"/home/sahara/Desktop/ultimate_stepper/translation_stage_control/encoder.ino",
+		"/home/sahara/Desktop/ultimate_stepper/encoder.ino",
+		"/home/sahara/my_programs/scan_differende_plot/scan_difference_plot.m",
+		"/home/sahara/Desktop/encoder/encoder_single_arduino_per_direction.ino",
+		"/home/sahara/bin/arduino_make.py",
+		"/usr/share/arduino-1.0.5/hardware/arduino/boards.txt",
+		"/home/sahara/my_programs/scan_color_plot/ColorPlot.m",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/manual/find_emitter.tex",
+		"/home/sahara/Desktop/plot_file.py",
+		"/home/sahara/Desktop/ultimate_stepper/backup.ino",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/backup/114.svg",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_115_X8Y44_t60_1.txt",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_108_X14Y1_1.txt",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/spectra/SIQ-CVD-SiV-M_104_X23Y51_1.txt",
+		"/home/sahara/.config/sublime-text-2/Packages/User/JSON.sublime-settings",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_115_X8Y44_g2.dat",
+		"/home/sahara/.bashrc",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_115_X28Y48_g2.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_114_X33Y23_g2_calc.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_112_X37Y38_g2_calc.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_110_X41Y50_g2_calc.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_108_X14Y1_g2_calc.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_109_X14Y47_g2_2_ca.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_105_X38Y15_g2_calc.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_104_X23Y51_g2_calc.dat",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_104_X17Y31_g2_calc.dat",
+		"/home/sahara/my_programs/g2_fit/LMFnlsq.m",
+		"/media/Daten/measurements/SIQ/SIQ-CVD-SiV-M/auswertung/SIQ-CVD-SiV-M_103_X6Y31_g2_calc.dat",
+		"/home/sahara/.config/sublime-text-2/Packages/User/matlab.sublime-build",
+		"/home/sahara/Desktop/consecutivity.cpp",
+		"/home/sahara/Desktop/scatterplot.py",
+		"/home/sahara/Desktop/scatterplot1.py",
+		"/home/sahara/Desktop/encoder.ino",
+		"/media/Daten/setup/arduino/stepper_adafruit/stepper_adafruit.ino",
+		"/media/Daten/setup/arduino/stepper_pololu/stepper_pololu.ino",
+		"/media/Daten/setup/arduino/stepper_control/stepper_control.ino",
+		"/home/sahara/Desktop/stepper_control/stepper_control.ino",
+		"/home/sahara/Desktop/stepper_control_encoder_complicated/stepper_control_encoder_complicated.ino",
+		"/home/sahara/Desktop/stepper_control_encoder_no_interrupt/stepper_control_encoder_no_interrupt.ino",
+		"/usr/share/arduino-1.0.5/libraries/Encoder/Encoder.h",
+		"/usr/share/arduino-1.0.5/libraries/Encoder/Encoder.cpp",
+		"/home/sahara/Desktop/stepper_with_encoder_library/stepper_with_encoder_library.ino",
+		"/home/sahara/Desktop/reset_arduino.py ",
+		"/home/sahara/Desktop/stepper_accel_try/stepper_accel_try.ino",
+		"/home/sahara/Desktop/single_arduino _per_direction/single_arduino_per_direction.ino",
+		"/media/Daten/setup/arduino/try_cpp/try_cpp.cpp",
+		"/media/Daten/setup/arduino/hello_world/hello_world.ino",
+		"/media/Daten/setup/arduino/headers/try.h",
+		"/home/sahara/Desktop/fastdigitalwrite/DigitalIO/DigitalIO.cpp",
+		"/home/sahara/Desktop/software_reset.ino",
+		"/media/Daten/setup/digital_serial_read/digital_serial_read.ino.cpp",
+		"/media/Daten/setup/hello_world/hello_world.ino.cpp",
+		"/media/Daten/setup/stepper_adafruit/stepper_adafruit.ino.cpp",
+		"/media/Daten/setup/switch1/switch1.ino.cpp",
+		"/media/Daten/setup/arduino/stepper_accel_try/stepper_accel_try.ino",
+		"/home/sahara/.gvfs/daten on agbecher022/3_channels/test_3_channels.cpp",
+		"/media/Daten/measurements/3_channels_andreas/test_3_channels.cpp",
+		"/media/Daten/measurements/3_channels_andreas/3_channel.cpp",
+		"/media/Daten/setup/stepper_lib_try/stepper_lib_try.ino",
+		"/media/Daten/setup/arduino/try_library/try_library.ino",
+		"/usr/share/arduino-1.0.5/libraries/StandardCplusplus-master/examples/string_vector/string_vector.ino",
+		"/media/Daten/setup/arduino/christian_stepper/christian_stepper.ino"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+			"<open files>",
+			"",
+			"Step.cpp, Step.h, stepper_motor_control.ino",
+			"<open files>"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"cHandle",
+			"fHandle",
+			"hFigure",
+			"data_file_input",
+			"dataInFileName",
+			"data_data_file_input_name",
+			"input_folder",
+			"yData",
+			"-yData",
+			"xData",
+			"_s",
+			"t0_start",
+			"_s",
+			"t0_start",
+			"_s",
+			"(1 + erf(0.5 * ((-p(2) + xdat) * p(3)-w^2",
+			"(1 + erf(0.5 * ((-p(2) + xData) * p(3)-w^2",
+			"(1 + erf(0.5 * ((-p(2) + xData) * p(3)-obj.widthHbt^2",
+			"*",
+			" (",
+			"*",
+			"+",
+			"p",
+			"1+p",
+			"+",
+			"2",
+			"p",
+			"1+p",
+			"+",
+			"p",
+			"1+p",
+			"+",
+			"obj.w",
+			"obj",
+			"w",
+			"data",
+			"xdat",
+			"pdat",
+			"normalizeG2",
+			"adjustX",
+			"subtractoffset",
+			"adjustX",
+			"normalizeG2",
+			"Gauss",
+			"Faltung",
+			"year",
+			"month",
+			"Data",
+			"range",
+			"Mean",
+			"Range",
+			"Data",
+			"DataNormalized",
+			"xDataAdjusted",
+			"xOffsetCorrected",
+			"xData",
+			"yMean",
+			"yRange",
+			"yDataIn",
+			"yDataNormalized",
+			"ydat",
+			"xdat",
+			"wra",
+			"dataInFileStub",
+			"filename",
+			"function [data] = read_spe('/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-2/scan_z_25_25_ul_x29y12_spectrum.SPE')\n   fid=fopen('/media/sahara/Daten/measurements/SIQ/goetzinger/SIQ-SG-2/scan_z_25_25_ul_x29y12_spectrum.SPE','r','ieee-le');\n\n   [header,count]=fread(fid,4100,'uint8');\n   dataType=header(109);\n   xdim=header(43) + header(44)*2^8;\n   ydim=header(657) + header(658)*2^8;\n   frames=header(1447) + header(1448)*2^8 +header(1449)*2^16 + header(1450)*2^24;\n\n   strDataType={'float32','int32','int16','uint16'};\n   if (dataType>3)\n      fclose(fid);\n      fprintf(strcat('Unknown WinSpec data type: ',num2str(dataType)));\n      clear data;\n      data=[];\n      return;\n   end;\n\n   data=zeros(xdim,ydim,frames,strDataType{dataType+1});\n   [data,count]=fread(fid,inf,strcat(strDataType{dataType+1},'=>',strDataType{dataType+1}));\n   data2=reshape(data,xdim,ydim,frames);\n   clear data;\n   data=permute(data2,[2 1 3]);\n   clear data2;\n   fclose(fid);",
+			";\n",
+			"controller",
+			"controller-",
+			"<< std::endl",
+			"std::cout <<",
+			"vec",
+			"basic_oserialstream",
+			"ctrl+alt+s",
+			"save",
+			" movement",
+			"movement",
+			"SetMovement",
+			"print_directions",
+			"delay_time",
+			"test",
+			"micro_step1",
+			"10",
+			"microstep",
+			"encoderTick",
+			"digitalReadFast",
+			"Ticks",
+			"Pin",
+			"_LeftEncoder",
+			"LeftEncoder",
+			"c_LeftEncoder",
+			"_LeftEncoder",
+			"_LeftEncoderASet",
+			"_LeftEncoderBSet",
+			"HandleLeftMotorInterruptA",
+			"Bnew",
+			"Aold",
+			"delay",
+			"delay(",
+			"encoderInterruptA",
+			"encoderPinA",
+			"B1new",
+			"nx",
+			"dateiin2",
+			"dateiin1",
+			"z",
+			"MIN",
+			"min",
+			"MIN",
+			"input_file",
+			"in",
+			"In",
+			"in",
+			"In",
+			"in",
+			"data_in_file_name",
+			"in",
+			"dateiin",
+			"fitFileIn",
+			"myFolder",
+			"dataFileIn",
+			"dataInFileName",
+			"fitInFileName",
+			"pcolor",
+			"');\n",
+			"pcolor(dateiin1);   \ncolormap(jet(64));",
+			"figure; \npcolor(value);   \ncolormap(jet(64));\nview(2);  \naxis square; %shading interp;\nset(gca,'FontSize',14); \n\nxlabel(texlabel('X-axis (pixel)'),'fontsize',16); \nylabel(texlabel('Y-axis (pixel)'),'fontsize',16);\n\nh = colorbar('EastOutside');",
+			")\n"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			" * ",
+			" ( ",
+			" * ",
+			" *  ",
+			" + ",
+			"normalize_g2",
+			"adjust_x",
+			"subtract_offset",
+			"adjust_x",
+			"normalize_g2",
+			")",
+			"Serial.println(",
+			"Movement",
+			"delayMicroseconds(",
+			"data_file_input2",
+			"data_file_input1",
+			"min_value",
+			"data_file_input",
+			"."
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/saharahome/.profile",
+					"settings":
+					{
+						"buffer_size": 73,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14,
+								14
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"auto_name": "# color scheme",
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 35.0
+	},
+	"input":
+	{
+		"height": 87.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.Desktop":
+	{
+		"height": 142.0
+	},
+	"output.arduino":
+	{
+		"height": 224.0
+	},
+	"output.backup_arduino":
+	{
+		"height": 315.0
+	},
+	"output.christian_stepper":
+	{
+		"height": 124.0
+	},
+	"output.digital_serial_read":
+	{
+		"height": 124.0
+	},
+	"output.encoder":
+	{
+		"height": 198.0
+	},
+	"output.exec":
+	{
+		"height": 166.0
+	},
+	"output.hello_world":
+	{
+		"height": 224.0
+	},
+	"output.single_arduino _per_direction":
+	{
+		"height": 142.0
+	},
+	"output.stepper_accel_try":
+	{
+		"height": 142.0
+	},
+	"output.stepper_adafruit":
+	{
+		"height": 153.0
+	},
+	"output.stepper_control":
+	{
+		"height": 187.0
+	},
+	"output.stepper_control_encoder_complicated":
+	{
+		"height": 124.0
+	},
+	"output.stepper_control_encoder_no_interrupt":
+	{
+		"height": 124.0
+	},
+	"output.stepper_pololu":
+	{
+		"height": 124.0
+	},
+	"output.stepper_with_encoder_library":
+	{
+		"height": 56.0
+	},
+	"output.stino_log":
+	{
+		"height": 124.0
+	},
+	"output.string_vector":
+	{
+		"height": 175.0
+	},
+	"output.switch1":
+	{
+		"height": 243.0
+	},
+	"output.translation_stage_control":
+	{
+		"height": 142.0
+	},
+	"output.try_library":
+	{
+		"height": 329.0
+	},
+	"output.ultimate_stepper":
+	{
+		"height": 142.0
+	},
+	"replace":
+	{
+		"height": 70.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"",
+				"switch4.pde"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true
+}
