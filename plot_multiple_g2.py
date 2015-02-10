@@ -17,6 +17,11 @@ out_filename = argv[1]
 in_files_data = argv[2::2]
 in_files_fit = argv[3::2]
 
+# adjust plot range
+plotrange_low = float(raw_input("Enter LOWER boundary in ns for plot or press ENTER for default value: " ) or -2000) 
+plotrange_high = float(raw_input("Enter HIGHER boundary in ns for plot or press ENTER for default value: " ) or 2000) 
+
+
 #slice filename to create title for plot
 file_parts = out_filename.split('/')
 title = file_parts[len(file_parts)-1]
@@ -58,6 +63,7 @@ for index, item in enumerate(axs):
 	item.plot(xdata_plot[index], ydata_fit[index], 'r--')
 	item.tick_params(axis = 'both', labelsize = 15)
 	item.set_yticks([0.0, 0.25, 0.5, 0.75, 1, 1.25])
+	item.set_xlim([plotrange_low, plotrange_high])
 
 
 # Fine-tune figure:
@@ -65,6 +71,7 @@ for index, item in enumerate(axs):
 # make subplots close to each other and hide x ticks for all but bottom plot.
 fig.subplots_adjust(hspace=0)
 plt.setp([a.get_xticklabels() for a in fig.axes[:-1]], visible=False)
+
 
 # make title and labels
 axs[0].set_title(title, fontsize = 23)
