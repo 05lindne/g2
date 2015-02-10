@@ -22,15 +22,18 @@ clear all; close all;
 % INPUT HERE---------------------------------------------------------
 
 % >>> specify directory which contains the correlation data
-myFolder = '/mnt/Daten/measurements/SIQ/goetzinger/SIQ-SG-V2/140606/g2/';
+myFolder = '/home/sahara/Desktop/g2_try/';
 % >>> specify file name of the correlation data file without extension
-baseFileName = 'scan_xy_25_25_ll_x20y23_g2';
+baseFileName = 'g2_scan_xy-05_500uW';
 % >>> specify extension of the correlation data file
 dataInFileExtension = '.txt';
 dataInFileName = [ baseFileName, dataInFileExtension ]
 
-% >>> specify measurement performed in new or old lab ( for binning of time tag module, width of HBT response function)
-lab = 'new'; %'old'
+% >>> specify whether you want a plot with a fit (0/1)
+plotFit = 1;
+
+% >>> specify measurement performed in new or old lab ( for timing jitter,  width of HBT response function)
+lab = 'new'; %'old' 
 
 % >>> specify the number of datapoints which should be used as normalization reference
 normalization_range = 200;
@@ -59,7 +62,7 @@ if ( lab == 'new')
 	binWidth 	= 0.078;
 	widthHbt	= 0.296;
 elseif ( lab == 'old')
-	binWidth 	= 0.078;%?????????????????????????????????????????????????????????
+	binWidth 	= 0.004;
 	widthHbt	= 0.354;
 else
 	error ('Wrong input for lab')
@@ -68,27 +71,27 @@ end
 % put measured data in desired format
 xDataAdjusted = adjust_x( xDataIn, binWidth );
 yDataNormalized = normalize_g2( yDataIn, normalization_range );
+%save normalized data
+dataOut = [xDataAdjusted, yDataNormalized];
+dlmwrite(fullfile(myFolder, [ baseFileName, '_g2_normalized.txt']), dataOut,'precision', 8, 'delimiter' ,'\t') ;
 
-%calculate fit function
 
-% fprintf('in main1')
-fitting = FitG2(a, t0, t1, t2, pf, widthHbt, xDataAdjusted, yDataNormalized, myFolder, baseFileName );
 
-% fprintf('in main2')
-
+%create fit function----------------------------------------------
+%initialize
+fitting = FitG2(a, t0, t1, t2, pf, widthHbt, xDataAdjusted, yDataNormalized, myFolder, baseFileName);
+%fit data
 fitting.calculate_g2_fit;
 
-% fprintf('in main3')
 
 get(fitting)
 
-% fprintf('in main4')
 
 % save output
 fitting.save_fit_data;
 fitting.save_fit_parameters;
 
 %plot
-fitting.plot
-fitting.detail_plot
+fitting.plot(plotFit)
+fitting.detail_plot(plotFit)
 

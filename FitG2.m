@@ -18,6 +18,7 @@ classdef FitG2 < hgsetget
 
     fitParameters; %array
     g2Data; %array
+    
 
   end
 
@@ -91,7 +92,7 @@ classdef FitG2 < hgsetget
 
 
 
-    function plot ( obj )
+    function plot ( obj, plotFit )
 
       % plot entire measured g2 
       hFigure = figure; 
@@ -111,7 +112,9 @@ classdef FitG2 < hgsetget
       hold on;
 
       % plot the fit function
-      plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
+      if (plotFit==1)
+        plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
+      end
       hold off
 
       % Save as eps (Because a file name is specified, the figure will be printed to a file.)
@@ -122,7 +125,7 @@ classdef FitG2 < hgsetget
 
 
 
-    function detail_plot ( obj )
+    function detail_plot ( obj, plotFit )
 
       % plot detail of measured g2 
       hFigure = figure; 
@@ -141,7 +144,10 @@ classdef FitG2 < hgsetget
       hold on;
 
       % plot the fit function
-      plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
+      if (plotFit==1)
+        plot(obj.xData,obj.g2Data,'--r', 'LineWidth', 1)
+      end
+      
       hold off
 
       % Save as eps (Because a file name is specified, the figure will be printed to a file.)
@@ -162,7 +168,12 @@ classdef FitG2 < hgsetget
 
     function save_fit_parameters( obj )
 
-      dlmwrite(fullfile(obj.myFolder, [ obj.baseFileName, '_g2_fitparam.txt']),obj.fitParameters,'delimiter' ,'\t', 'precision', 6);
+      filename = fullfile(obj.myFolder, [ obj.baseFileName, '_g2_fitparam.txt'])
+
+      fileID = fopen(filename,'w');
+      fprintf(fileID,'%12s\t%12s\t%12s\t%12s\t%12s\n','a','t0', 't1', 't2', 'pf'); %tab-delimited row, width between tab = 12
+      fprintf(fileID,'%12.8f\t%12.8f\t%12.8f\t%12.8f\t%12.8f\n',obj.fitParameters);%tab-delimited row, width between tab = 12, precision=8
+      fclose(fileID);
 
     end
 
